@@ -6,6 +6,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -13,6 +16,8 @@ public class Main extends Application {
         primaryStage.setTitle("Restaurant Management");
         primaryStage.setScene(new Scene(root, 300, 275));
         primaryStage.show();
+
+        Booking booking = new Booking(new Table(1,1), 1, null, null, null, 1);
     }
 
     static CustomArrayList<Table> tables;
@@ -27,7 +32,6 @@ public class Main extends Application {
             if (t.getTableID() == id)
                 return t;
         }
-
         throw new IndexOutOfBoundsException("No table by such id");
     }
 }

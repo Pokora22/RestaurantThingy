@@ -4,13 +4,13 @@ public class Node <T> {
     private T content;
     public Node next;
 
-    public Node(T item){
-        this.content = item;
+    public Node(T content){
+        this.content = content;
         this.next = null;
     }
 
-    public Node(T item, Node next){
-        this.content = item;
+    public Node(T content, Node next){
+        this.content = content;
         this.next = next;
     }
 
