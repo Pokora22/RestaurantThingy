@@ -41,6 +41,6 @@ public class MainController extends Controller{
         //controller.setSourceController(this);
         controller.setSourceScene(sourceStage.getScene());
         sourceStage.setTitle(windowTitle);
-        sourceStage.setScene(new Scene(root, 600, 300));
+        sourceStage.setScene(new Scene(root, 600, 400));
     }
 }

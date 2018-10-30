@@ -1,13 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
 
-<AnchorPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.TablesController" prefHeight="400.0" prefWidth="600.0">
-    <children>
-        <Button layoutX="24.0" layoutY="23.0" mnemonicParsing="false" onAction="#switchToSourceScene" text="Go Back" />
-    </children>
-</AnchorPane>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.TablesController">
+   <left>
+      <Pane prefHeight="400.0" prefWidth="185.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button layoutX="14.0" layoutY="361.0" mnemonicParsing="false" onAction="#switchToSourceScene" text="Go Back" />
+            <Button fx:id="btnNewTablePane" layoutX="6.0" layoutY="38.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="174.0" text="Add New Table" />
+            <Button fx:id="btnViewTablesPane" layoutX="6.0" layoutY="107.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="174.0" text="View And Edit Tables" />
+         </children>
+      </Pane>
+   </left>
+   <center>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <AnchorPane prefHeight="400.0" prefWidth="415.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <AnchorPane fx:id="paneNewTableForm" prefHeight="400.0" prefWidth="415.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <TextField fx:id="textfieldNewTableID" layoutX="59.0" layoutY="119.0" onAction="#addNewTable" />
+                  <TextField fx:id="textfieldNewTableNoSeats" layoutX="59.0" layoutY="188.0" onAction="#addNewTable" />
+                  <Label layoutX="59.0" layoutY="95.0" prefHeight="24.0" prefWidth="149.0" text="Table ID" />
+                  <Label layoutX="59.0" layoutY="163.0" prefHeight="25.0" prefWidth="148.0" text="Number of seats" />
+                  <Button fx:id="btnNewTableAdd" layoutX="59.0" layoutY="256.0" mnemonicParsing="false" onAction="#addNewTable" prefHeight="29.0" prefWidth="77.0" text="Add" />
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>
