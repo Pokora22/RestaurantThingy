@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="213.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MainController">
+   <children>
+      <Button fx:id="btnBookings" layoutX="8.0" layoutY="60.0" mnemonicParsing="false" onAction="#changeScene" prefHeight="46.0" prefWidth="198.0" text="Manage Bookings" />
+      <Button fx:id="btnTables" layoutX="8.0" layoutY="123.0" mnemonicParsing="false" onAction="#changeScene" prefHeight="46.0" prefWidth="198.0" text="Manage Tables" />
+      <Button fx:id="btnMenu" layoutX="8.0" layoutY="184.0" mnemonicParsing="false" onAction="#changeScene" prefHeight="46.0" prefWidth="198.0" text="ManageMenu" />
+      <Label alignment="CENTER" layoutX="7.0" layoutY="14.0" prefHeight="28.0" prefWidth="198.0" text="Restaurant Management" textAlignment="CENTER">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+   </children>
+</Pane>
