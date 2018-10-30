@@ -1,9 +1,11 @@
+package main;
+
 public class Table {
     private int tableID, numOfSeats;
 
     public Table(int tableID, int numOfSeats) {
-        this.tableID = tableID;
-        this.numOfSeats = numOfSeats;
+        this.tableID = tableID > 0? tableID: 0;
+        this.numOfSeats = numOfSeats > 0 && numOfSeats < 9? numOfSeats: 0; //8 seat max?
     }
 
     public int getTableID() {
@@ -11,7 +13,7 @@ public class Table {
     }
 
     public void setTableID(int tableID) {
-        this.tableID = tableID;
+        if (tableID > 0) this.tableID = tableID;
     }
 
     public int getNumOfSeats() {
@@ -19,11 +21,11 @@ public class Table {
     }
 
     public void setNumOfSeats(int numOfSeats) {
-        this.numOfSeats = numOfSeats;
+        if (numOfSeats > 0 && numOfSeats < 9) this.numOfSeats = numOfSeats;
     }
 
     public String toString(){
-        return "Table no: " + getTableID() + " Seats: " + getNumOfSeats();
+        return "main.Table no: " + getTableID() + " Seats: " + getNumOfSeats();
     }
 
 

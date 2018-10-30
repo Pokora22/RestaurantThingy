@@ -1,3 +1,5 @@
+package main;
+
 import java.util.Iterator;
 
 public class CustomIterator<T> implements Iterator {

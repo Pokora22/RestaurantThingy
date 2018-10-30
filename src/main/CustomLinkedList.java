@@ -1,3 +1,5 @@
+package main;
+
 import java.util.Iterator;
 
 public class CustomLinkedList <T> implements Iterable<T>{
@@ -30,7 +32,7 @@ public class CustomLinkedList <T> implements Iterable<T>{
                 temp.next = new Node<T>(item, temp.next);
             /*
             else if (temp.next.equals(insertPoint))
-                 temp.next.next = new Node(item);
+                 temp.next.next = new main.Node(item);
              */
         }
     }

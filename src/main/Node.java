@@ -1,3 +1,5 @@
+package main;
+
 public class Node <T> {
     private T content;
     public Node next;

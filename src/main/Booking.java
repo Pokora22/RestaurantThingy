@@ -1,9 +1,9 @@
+package main;
+
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
 public class Booking {
     private Table table;
@@ -24,6 +24,6 @@ public class Booking {
 
     @Override
     public String toString() {
-        return "Booking ID: " + bookingID + " for " + customerAmnt + " people.\nMade by: " + customerName;
+        return "main.Booking ID: " + bookingID + " for " + customerAmnt + " people.\nMade by: " + customerName;
     }
 }
