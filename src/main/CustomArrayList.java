@@ -17,7 +17,7 @@ public class CustomArrayList <T> implements Iterable<T>{
         list = new Node[DEFAULT_SIZE];
     }
 
-    public void append(T item){
+    public void add(T item){
         for(int i = 0; i < list.length; i++){
             if(list[i]==null){
                 list[i] = new Node<T>(item);
@@ -59,7 +59,11 @@ public class CustomArrayList <T> implements Iterable<T>{
     }
 
     public int size() {
-        return list.length;
+        int length = 0;
+        for(Node element : list){
+            if (element != null) length++;
+        }
+        return length;
     }
 
     @Override

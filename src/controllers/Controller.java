@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -31,5 +32,13 @@ public class Controller {
 
         sourceStage.setTitle("Restaurant Management");
         sourceStage.setScene(sourceScene);
+    }
+
+    protected void showHint(String tooltipMsg, Node sourceNode){
+        Tooltip tt = new Tooltip(tooltipMsg);
+        tt.setAutoHide(true);
+        tt.show(sourceNode.getScene().getWindow(),
+                sourceNode.localToScreen(sourceNode.getTranslateX(),sourceNode.getTranslateY()).getX(),
+                sourceNode.localToScreen(sourceNode.getTranslateY(), sourceNode.getTranslateY()).getY() + 25); //get height from the source node somehow - how?
     }
 }
