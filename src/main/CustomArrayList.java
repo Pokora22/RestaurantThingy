@@ -45,9 +45,9 @@ public class CustomArrayList <T> implements Iterable<T>{
         }
     }
 
-    public Node getNode(int index){
+    public T getContent(int index){
         if (index >=0 && index < list.length)
-            return list[index];
+            return list[index].getContent();
         else
             throw new IndexOutOfBoundsException("No element with such index");
     }
@@ -69,9 +69,13 @@ public class CustomArrayList <T> implements Iterable<T>{
 
     @Override
     public String toString() {
-        return "CustomArrayList{" +
-                "list=" + Arrays.toString(list) +
-                '}';
+        StringBuilder str = new StringBuilder("");
+        for(Node<T> n:list){
+            if(n == null) break;
+            str.append(n.getContent().toString() +"\n");
+        }
+        return str.toString();
+
     }
 
     @Override
