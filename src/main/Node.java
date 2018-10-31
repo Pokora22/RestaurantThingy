@@ -2,7 +2,7 @@ package main;
 
 public class Node <T> {
     private T content;
-    public Node next;
+    public Node<T> next;
 
     public Node(T content){
         this.content = content;

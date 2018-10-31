@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 public class Booking {
     private Table table;
@@ -82,6 +83,6 @@ public class Booking {
 
     @Override
     public String toString() {
-        return "Booking for " + customerAmnt + " people, at " + startDate + ":" + startTime + "for " + duration + "hours.\nMade by: " + customerName;
+        return "Booking for " + customerAmnt + " people, at " + startDate + " " + startTime.format(DateTimeFormatter.ofPattern("HH:mm")) + " for " + duration + " hours. Made by: " + customerName;
     }
 }

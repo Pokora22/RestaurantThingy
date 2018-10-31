@@ -3,7 +3,7 @@ package main;
 import java.util.Iterator;
 
 public class CustomLinkedList <T> implements Iterable<T>{
-    public Node head;
+    public Node<T> head;
 
     CustomLinkedList(){
         this.head = null;
@@ -13,14 +13,16 @@ public class CustomLinkedList <T> implements Iterable<T>{
         this.head = new Node(item);
     }
 
-    public void append(T item)  {
-        if (head == null)
-            throw new NullPointerException("Linked list head is null.");
+    public void add(T item)  {
+        if (head == null){
+            head = new Node(item);
+            return;
+        }
 
-        Node temp = head;
+        Node<T> temp = head;
         while(temp.next != null)
             temp = temp.next;
-        temp.next = new Node<T>(item);
+        temp.next = new Node(item);
     }
 
     public void insert(T item, T insertPoint){ //insert after the insert point
@@ -52,4 +54,5 @@ public class CustomLinkedList <T> implements Iterable<T>{
     public Iterator<T> iterator() {
         return new CustomIterator<T>(head);
     }
+
 }

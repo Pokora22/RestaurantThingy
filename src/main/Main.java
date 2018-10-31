@@ -6,6 +6,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 public class Main extends Application {
     public static Database database;
 
@@ -17,23 +20,14 @@ public class Main extends Application {
         database.getTables().add(new Table(2, 2));
         database.getTables().add(new Table(3, 3));
 
-        System.out.println("test");
+        database.getBookings().add(new Booking(new Table(1,1),1, "Name", LocalDate.now(), LocalTime.now(), 1));
+        database.getBookings().add(new Booking(new Table(2,2),2, "Name2", LocalDate.now(), LocalTime.now(), 2));
+
+        System.out.println(database.getBookings());
         System.out.println(database.getTables());
-        System.out.println("Size: " + database.getTables().size());
 
-        for(Table t : database.getTables()){
+        for (Table t: database.getTables()) {
 
-            System.out.println(t.toString());
-        }
-
-        CustomArrayList<Table> tables2 = new CustomArrayList<>();
-        tables2.add(new Table(1, 1));
-        tables2.add(new Table(2, 2));
-        tables2.add(new Table(3, 3));
-
-        System.out.println(tables2.size());
-        for(Object t: tables2){
-            System.out.println(t); //These are not working. Why?
         }
 
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/mainWindow.fxml"));

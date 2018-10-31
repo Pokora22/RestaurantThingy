@@ -1,5 +1,6 @@
 package main;
 
+import java.util.Arrays;
 import java.util.Iterator;
 
 public class CustomArrayList <T> implements Iterable<T>{
@@ -64,6 +65,13 @@ public class CustomArrayList <T> implements Iterable<T>{
             if (element != null) length++;
         }
         return length;
+    }
+
+    @Override
+    public String toString() {
+        return "CustomArrayList{" +
+                "list=" + Arrays.toString(list) +
+                '}';
     }
 
     @Override
