@@ -1,8 +1,9 @@
 package main;
 
+import java.util.AbstractList;
 import java.util.Iterator;
 
-public class CustomLinkedList <T> implements Iterable<T>{
+public class CustomLinkedList <T> extends AbstractList<T> implements Iterable<T>{
     public Node<T> head;
 
     CustomLinkedList(){
@@ -13,16 +14,24 @@ public class CustomLinkedList <T> implements Iterable<T>{
         this.head = new Node(item);
     }
 
-    public void add(T item)  {
+    public boolean add(T item)  {
         if (head == null){
             head = new Node(item);
-            return;
+            return true;
         }
 
         Node<T> temp = head;
         while(temp.next != null)
             temp = temp.next;
         temp.next = new Node(item);
+        return true;
+    }
+
+    @Override
+    public T get(int index) {
+        Node<T> node = head;
+        for(int i = 0; i < index; i++) node = node.next;
+        return node.getContent();
     }
 
     public void insert(T item, T insertPoint){ //insert after the insert point
@@ -53,6 +62,20 @@ public class CustomLinkedList <T> implements Iterable<T>{
     @Override
     public Iterator<T> iterator() {
         return new CustomIterator<T>(head);
+    }
+
+    @Override
+    public int size() {
+        if(head == null) return 0;
+
+        int size = 0;
+        Node<T> temp = head;
+        while(temp.next != null){
+            temp = temp.next;
+            size++;
+        }
+
+        return size;
     }
 
 }

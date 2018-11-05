@@ -22,7 +22,7 @@
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <AnchorPane fx:id="paneNewTableForm" prefHeight="400.0" prefWidth="415.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane fx:id="paneNewTableForm" prefHeight="400.0" prefWidth="415.0" style="-fx-background-color: rgb(245,245,245);" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <TextField fx:id="textfieldNewTableID" layoutX="59.0" layoutY="119.0" onAction="#addNewTable" />
                   <TextField fx:id="textfieldNewTableNoSeats" layoutX="59.0" layoutY="188.0" onAction="#addNewTable" />
