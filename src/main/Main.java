@@ -16,23 +16,28 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         database = new Database();
 
-
+        //Some testing - shits broken
         database.getTables().add(new Table(1, 1));
         database.getTables().add(new Table(2, 2));
         database.getTables().add(new Table(3, 3));
 
-        /*
-        database.getBookings().add(new Booking(new Table(1,1),1, "Name", LocalDate.now(), LocalTime.now(), 1));
-        database.getBookings().add(new Booking(new Table(2,2),2, "Name2", LocalDate.now(), LocalTime.now(), 2));
 
-        System.out.println(database.getBookings());
+        database.getBookings().add(new Booking(database.getTables().get(0), 1, "name", LocalDate.now(), LocalTime.now(), 1));
+        database.getBookings().add(new Booking(database.getTables().get(0), 2, "name", LocalDate.now(), LocalTime.now(), 1));
+        database.getBookings().add(new Booking(database.getTables().get(0), 3, "name", LocalDate.now(), LocalTime.now(), 1));
+        database.getBookings().add(new Booking(database.getTables().get(0), 4, "name", LocalDate.now(), LocalTime.now(), 1));
+
+        database.getBookings().forEach(e-> e.setDuration(2));
+        database.getTables().forEach(e-> e.setNumOfSeats(5));
+
+
+        System.out.println(database.getTables().size());
         System.out.println(database.getTables());
+        System.out.println(database.getBookings().size());
+        System.out.println(database.getBookings());
 
-        for (Table t: database.getTables()) {
+        /////////////
 
-        }
-
-        */
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/mainWindow.fxml"));
         primaryStage.setTitle("Restaurant Management");
         primaryStage.setScene(new Scene(root, 300, 275));

@@ -69,12 +69,10 @@ public class CustomLinkedList <T> extends AbstractList<T> implements Iterable<T>
         if(head == null) return 0;
 
         int size = 0;
-        Node<T> temp = head;
-        while(temp.next != null){
-            temp = temp.next;
-            size++;
+        for(T element : this){
+            if (element != null) size++;
+            else break;
         }
-
         return size;
     }
 

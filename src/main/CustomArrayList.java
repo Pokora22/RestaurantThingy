@@ -18,7 +18,7 @@ public class CustomArrayList <T> extends AbstractList<T> implements Iterable<T>{
 
     CustomArrayList(){
         list = new Node[DEFAULT_SIZE];
-        list[0] = new Node();
+        //list[0] = new Node();
     }
 
     public boolean add(T item){
@@ -74,6 +74,7 @@ public class CustomArrayList <T> extends AbstractList<T> implements Iterable<T>{
         int length = 0;
         for(Node element : list){
             if (element != null) length++;
+            else break;
         }
         return length;
     }
