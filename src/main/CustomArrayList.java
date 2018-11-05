@@ -1,9 +1,11 @@
 package main;
 
+import java.util.AbstractList;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 
-public class CustomArrayList <T> implements Iterable<T>{
+public class CustomArrayList <T> extends AbstractList<T> implements Iterable<T>{
     private static final int DEFAULT_SIZE = 10;
     private Node<T>[] list;
 
@@ -19,19 +21,25 @@ public class CustomArrayList <T> implements Iterable<T>{
         list[0] = new Node();
     }
 
-    public void add(T item){
+    public boolean add(T item){
         for(int i = 0; i < list.length; i++){
             if(list[i]==null){
                 list[i] = new Node<T>(item);
 
                 if(i>0) list[i-1].next = list[i]; //band-aid for the iterator
-                return;
+                return true;
             }
         }
 
         int nextFreeIndex = list.length;
         expand();
         list[nextFreeIndex] = new Node<T>(item);
+        return true;
+    }
+
+    @Override
+    public T get(int index) {
+        return list[index].getContent();
     }
 
     private void expand(){
