@@ -22,4 +22,12 @@ public class Database {
     public CustomLinkedList<MenuItem> getMenuItems() {
         return menuItems;
     }
+
+    public Table tableByID(int id){
+        for (Table t: getTables()) {
+            if (t.getTableID() == id)
+                return t;
+        }
+        throw new IndexOutOfBoundsException("No table by such id");
+    }
 }

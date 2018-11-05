@@ -16,12 +16,15 @@ public class CustomArrayList <T> implements Iterable<T>{
 
     CustomArrayList(){
         list = new Node[DEFAULT_SIZE];
+        list[0] = new Node();
     }
 
     public void add(T item){
         for(int i = 0; i < list.length; i++){
             if(list[i]==null){
                 list[i] = new Node<T>(item);
+
+                if(i>0) list[i-1].next = list[i]; //band-aid for the iterator
                 return;
             }
         }

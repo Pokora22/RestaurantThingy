@@ -16,6 +16,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         database = new Database();
 
+        /*
         database.getTables().add(new Table(1, 1));
         database.getTables().add(new Table(2, 2));
         database.getTables().add(new Table(3, 3));
@@ -30,6 +31,7 @@ public class Main extends Application {
 
         }
 
+        */
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/mainWindow.fxml"));
         primaryStage.setTitle("Restaurant Management");
         primaryStage.setScene(new Scene(root, 300, 275));
@@ -38,18 +40,7 @@ public class Main extends Application {
 
     }
 
-    static CustomArrayList<Table> tables;
-    static CustomLinkedList<Table> linkedList;
-
     public static void main(String[] args) {
         launch(args);
-    }
-
-    public static Table tableByID(int id){
-        for (Table t: tables) {
-            if (t.getTableID() == id)
-                return t;
-        }
-        throw new IndexOutOfBoundsException("No table by such id");
     }
 }

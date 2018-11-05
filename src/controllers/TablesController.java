@@ -35,8 +35,9 @@ public class TablesController extends Controller{
         Main.database.getTables().add(new Table(tableID, tableSeats));
         textfieldNewTableID.clear();
         textfieldNewTableNoSeats.clear();
+
         for(Table t:Main.database.getTables()){
-            System.out.println(t.toString());
+            System.out.println(t);
         }
     }
 

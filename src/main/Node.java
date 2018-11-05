@@ -4,6 +4,11 @@ public class Node <T> {
     private T content;
     public Node<T> next;
 
+    public Node(){
+        this.content = null;
+        this.next = null;
+    }
+
     public Node(T content){
         this.content = content;
         this.next = null;
