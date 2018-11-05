@@ -5,10 +5,12 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableView;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+import java.util.AbstractList;
 
 
 public class Controller {
@@ -40,5 +42,10 @@ public class Controller {
         tt.show(sourceNode.getScene().getWindow(),
                 sourceNode.localToScreen(sourceNode.getTranslateX(),sourceNode.getTranslateY()).getX(),
                 sourceNode.localToScreen(sourceNode.getTranslateY(), sourceNode.getTranslateY()).getY() + 25); //get height from the source node somehow - how?
+    }
+
+    protected void refreshTableView(TableView view, AbstractList list){
+        view.getItems().clear();
+        view.getItems().addAll(list); //Another band-aid for not using a proper observable list ...
     }
 }

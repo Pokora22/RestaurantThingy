@@ -1,7 +1,5 @@
 package controllers;
 
-import javafx.beans.property.ReadOnlyIntegerWrapper;
-import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -31,7 +29,7 @@ public class TablesController extends Controller{
 
     @FXML
     private void initialize(){
-        refreshTable();
+        refreshTableView(tablesTableView, Main.database.getTables());
         tableColumnID.setCellValueFactory((Callback<TableColumn.CellDataFeatures<Table, Integer>,
                 ObservableValue<Integer>>) cellData ->
                 new SimpleIntegerProperty(cellData.getValue().getTableID()).asObject());
@@ -67,17 +65,13 @@ public class TablesController extends Controller{
         }
 
         Main.database.getTables().add(new Table(tableID, tableSeats));
-        refreshTable();
+        refreshTableView(tablesTableView, Main.database.getTables());
 
         textfieldNewTableID.clear();
         textfieldNewTableNoSeats.clear();
-
     }
 
-    private void refreshTable(){
-        tablesTableView.getItems().clear();
-        tablesTableView.getItems().addAll(Main.database.getTables()); //Another band-aid for not using a proper observable list ...
-    }
+
 
 }
 
