@@ -21,7 +21,7 @@ public class TablesController extends Controller{
     private TableView<Table> tablesTableView;
     @FXML
     private TextField textfieldNewTableID, textfieldNewTableNoSeats;
-    //TODO: View tables (edit as well later) + adding the tables (with checks)
+    //TODO: Maybe change edit to contextual menu ? + Deleting
 
     @FXML
     private void initialize(){
