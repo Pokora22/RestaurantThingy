@@ -35,7 +35,7 @@ public class TablesController extends Controller{
                 try {
                     return super.fromString(value);
                 } catch (Exception e) {
-                    return 0; //allow for -1 to spot mistakes easier ?
+                    return -1; //allow for -1 to spot mistakes easier ?
                 }
             }
         })); //thank you stackexchange
@@ -48,7 +48,7 @@ public class TablesController extends Controller{
                 try {
                     return super.fromString(value);
                 } catch (Exception e) {
-                    return 0;
+                    return -1;
                 }
             }
         }));
@@ -91,12 +91,16 @@ public class TablesController extends Controller{
     private void editSaveID(TableColumn.CellEditEvent<Table, Integer> tableIntegerCellEditEvent) {
         Table table = tablesTableView.getSelectionModel().getSelectedItem();
         table.setTableID(tableIntegerCellEditEvent.getNewValue());
+
+        refreshTableView(tablesTableView, Main.database.getTables());
     }
 
     @FXML
     private void editSaveSeats(TableColumn.CellEditEvent<Table, Integer> tableIntegerCellEditEvent) {
         Table table = tablesTableView.getSelectionModel().getSelectedItem();
         table.setNumOfSeats(tableIntegerCellEditEvent.getNewValue());
+
+        refreshTableView(tablesTableView, Main.database.getTables());
     }
 }
 
