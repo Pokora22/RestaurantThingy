@@ -1,12 +1,14 @@
 package controllers;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
 import main.Main;
@@ -16,13 +18,13 @@ import java.time.Duration;
 
 public class TablesController extends Controller{
     @FXML
-    private TableColumn tableColumnID, tableColumnSeats;
+    private TableColumn<Table, Integer> tableColumnID, tableColumnSeats;
     @FXML
     private AnchorPane paneNewTableForm, paneTableView;
     @FXML
     private Button btnNewTablePane, btnViewTablesPane;
     @FXML
-    private TableView tablesTableView;
+    private TableView<Table> tablesTableView;
     @FXML
     private TextField textfieldNewTableID, textfieldNewTableNoSeats;
     //TODO: View tables (edit as well later) + adding the tables (with checks)
@@ -30,12 +32,31 @@ public class TablesController extends Controller{
     @FXML
     private void initialize(){
         refreshTableView(tablesTableView, Main.database.getTables());
-        tableColumnID.setCellValueFactory((Callback<TableColumn.CellDataFeatures<Table, Integer>,
-                ObservableValue<Integer>>) cellData ->
-                new SimpleIntegerProperty(cellData.getValue().getTableID()).asObject());
-        tableColumnSeats.setCellValueFactory((Callback<TableColumn.CellDataFeatures<Table, Integer>,
-                ObservableValue<Integer>>) cellData ->
-                new SimpleIntegerProperty(cellData.getValue().getNumOfSeats()).asObject());
+        TableColumn<Table, Integer> columnTableID = new TableColumn<>("Table ID coded");
+        TableColumn<Table, Integer> columnTableSeats = new TableColumn<>("Table seats coded");
+
+        tableColumnID.setCellValueFactory(cellData ->
+        new SimpleIntegerProperty(cellData.getValue().getTableID()).asObject());
+        tableColumnSeats.setCellValueFactory(cellData ->
+        new SimpleIntegerProperty(cellData.getValue().getNumOfSeats()).asObject());
+
+
+        columnTableID.setCellValueFactory(cellData ->{
+            SimpleObjectProperty<Integer> property = new SimpleObjectProperty<>();
+            property.setValue(cellData.getValue().getTableID());
+            return property;
+        });
+
+
+        columnTableSeats.setCellValueFactory(cellData ->{
+            SimpleObjectProperty<Integer> property = new SimpleObjectProperty<>();
+            property.set(cellData.getValue().getNumOfSeats());
+            return property;
+        });
+
+        //tablesTableView.getColumns().clear();
+        tablesTableView.getColumns().addAll(columnTableID, columnTableSeats);
+        System.out.println(columnTableID.isEditable());
     }
 
     @FXML
@@ -71,7 +92,10 @@ public class TablesController extends Controller{
         textfieldNewTableNoSeats.clear();
     }
 
-
-
+    @FXML
+    private void editSave(TableColumn.CellEditEvent<Table, Integer> cellEditEvent) {
+        Table table = tablesTableView.getSelectionModel().getSelectedItem(); //unsafe casting ?
+        System.out.println(table);
+    }
 }
 
