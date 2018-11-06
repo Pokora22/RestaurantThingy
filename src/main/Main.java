@@ -21,12 +21,16 @@ public class Main extends Application {
         database.getTables().add(new Table(2, 2));
         database.getTables().add(new Table(3, 3));
 
+        System.out.println(database.getTables());
+
 
         database.getBookings().add(new Booking(database.getTables().get(0), 1, "name", LocalDate.now(), LocalTime.now(), 1));
         database.getBookings().add(new Booking(database.getTables().get(0), 2, "name", LocalDate.now(), LocalTime.now(), 1));
         database.getBookings().add(new Booking(database.getTables().get(0), 3, "name", LocalDate.now(), LocalTime.now(), 1));
         database.getBookings().add(new Booking(database.getTables().get(0), 4, "name", LocalDate.now(), LocalTime.now(), 1));
 
+
+        /*
         database.getBookings().forEach(e-> e.setDuration(2));
         database.getTables().forEach(e-> e.setNumOfSeats(5));
 
@@ -35,7 +39,7 @@ public class Main extends Application {
         System.out.println(database.getTables());
         System.out.println(database.getBookings().size());
         System.out.println(database.getBookings());
-
+        */
         /////////////
 
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/mainWindow.fxml"));
