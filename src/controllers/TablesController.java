@@ -1,20 +1,14 @@
 package controllers;
 
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.AnchorPane;
-import javafx.util.Callback;
+import javafx.util.converter.IntegerStringConverter;
 import main.Main;
 import main.Table;
-
-import java.time.Duration;
 
 public class TablesController extends Controller{
     @FXML
@@ -32,31 +26,32 @@ public class TablesController extends Controller{
     @FXML
     private void initialize(){
         refreshTableView(tablesTableView, Main.database.getTables());
-        TableColumn<Table, Integer> columnTableID = new TableColumn<>("Table ID coded");
-        TableColumn<Table, Integer> columnTableSeats = new TableColumn<>("Table seats coded");
 
         tableColumnID.setCellValueFactory(cellData ->
         new SimpleIntegerProperty(cellData.getValue().getTableID()).asObject());
+        tableColumnID.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter(){
+            @Override
+            public Integer fromString(String value) {
+                try {
+                    return super.fromString(value);
+                } catch (Exception e) {
+                    return 0; //allow for -1 to spot mistakes easier ?
+                }
+            }
+        })); //thank you stackexchange
+
         tableColumnSeats.setCellValueFactory(cellData ->
         new SimpleIntegerProperty(cellData.getValue().getNumOfSeats()).asObject());
-
-
-        columnTableID.setCellValueFactory(cellData ->{
-            SimpleObjectProperty<Integer> property = new SimpleObjectProperty<>();
-            property.setValue(cellData.getValue().getTableID());
-            return property;
-        });
-
-
-        columnTableSeats.setCellValueFactory(cellData ->{
-            SimpleObjectProperty<Integer> property = new SimpleObjectProperty<>();
-            property.set(cellData.getValue().getNumOfSeats());
-            return property;
-        });
-
-        //tablesTableView.getColumns().clear();
-        tablesTableView.getColumns().addAll(columnTableID, columnTableSeats);
-        System.out.println(columnTableID.isEditable());
+        tableColumnSeats.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter(){
+            @Override
+            public Integer fromString(String value) {
+                try {
+                    return super.fromString(value);
+                } catch (Exception e) {
+                    return 0;
+                }
+            }
+        }));
     }
 
     @FXML
@@ -93,9 +88,15 @@ public class TablesController extends Controller{
     }
 
     @FXML
-    private void editSave(TableColumn.CellEditEvent<Table, Integer> cellEditEvent) {
-        Table table = tablesTableView.getSelectionModel().getSelectedItem(); //unsafe casting ?
-        System.out.println(table);
+    private void editSaveID(TableColumn.CellEditEvent<Table, Integer> tableIntegerCellEditEvent) {
+        Table table = tablesTableView.getSelectionModel().getSelectedItem();
+        table.setTableID(tableIntegerCellEditEvent.getNewValue());
+    }
+
+    @FXML
+    private void editSaveSeats(TableColumn.CellEditEvent<Table, Integer> tableIntegerCellEditEvent) {
+        Table table = tablesTableView.getSelectionModel().getSelectedItem();
+        table.setNumOfSeats(tableIntegerCellEditEvent.getNewValue());
     }
 }
 
