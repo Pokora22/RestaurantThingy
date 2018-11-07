@@ -38,6 +38,33 @@ public class CustomArrayList <T> extends AbstractList<T> implements Iterable<T>{
     }
 
     @Override
+    public boolean remove(Object item) {
+        if (item.getClass() == Table.class) {
+            System.out.println("list size: " + this.size());
+            for (int i = 0; i < this.size(); i++) {
+                if(list[i].getContent().equals(item)){
+                    for(int j = i; j < list.length; j++){
+                        if(list[j].next != null) list[j] = list[j+1];
+                        else{
+                            list[j] = null;
+
+                            for(int k = 0; k < j; k++){
+                                if(list[k+1] != null) list[k].next = list[k+1].next;
+                                else list[k].next = null; //TODO: This is still wrong - use brain - don't delete multiples
+                            }
+                            break;
+                        }
+
+                    }
+                    System.out.println(this.toString());
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    @Override
     public T get(int index) {
         return list[index].getContent();
     }

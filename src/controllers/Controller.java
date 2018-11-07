@@ -15,6 +15,7 @@ import java.util.AbstractList;
 
 public class Controller {
     private Scene sourceScene;
+    protected double mouseX, mouseY;
 
     public void setSourceScene(Scene sourceScene) {
         if (sourceScene != null) {

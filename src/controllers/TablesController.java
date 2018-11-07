@@ -2,12 +2,17 @@ package controllers;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.input.ContextMenuEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.WindowEvent;
 import javafx.util.converter.IntegerStringConverter;
 import main.Main;
+import main.MenuItem;
 import main.Table;
 
 public class TablesController extends Controller{
@@ -35,10 +40,11 @@ public class TablesController extends Controller{
                 try {
                     return super.fromString(value);
                 } catch (Exception e) {
-                    return -1; //allow for -1 to spot mistakes easier ?
+                    showHint("Field needs to be a positive whole number.", tableColumnID.getStyleableNode());
+                    return -1;
                 }
             }
-        })); //thank you stackexchange
+        })); //thank you stackexchange - cellfactory set to text field allows for editing in the table
 
         tableColumnSeats.setCellValueFactory(cellData ->
         new SimpleIntegerProperty(cellData.getValue().getNumOfSeats()).asObject());
@@ -48,6 +54,7 @@ public class TablesController extends Controller{
                 try {
                     return super.fromString(value);
                 } catch (Exception e) {
+                    showHint("Field needs to be a whole number (0-9).", tableColumnID.getStyleableNode());
                     return -1;
                 }
             }
@@ -62,6 +69,8 @@ public class TablesController extends Controller{
 
         }
     }
+
+
 
     public void addNewTable(ActionEvent actionEvent) {
         int tableID, tableSeats;
@@ -101,6 +110,28 @@ public class TablesController extends Controller{
         table.setNumOfSeats(tableIntegerCellEditEvent.getNewValue());
 
         refreshTableView(tablesTableView, Main.database.getTables());
+    }
+
+    @FXML
+    private void tableViewContextMenuRequested(ContextMenuEvent contextMenuEvent) {
+        ContextMenu contextMenu = new ContextMenu();
+        javafx.scene.control.MenuItem menuItemDelete = new javafx.scene.control.MenuItem("Delete entry");
+
+        menuItemDelete.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Table table = tablesTableView.getSelectionModel().getSelectedItem();
+                if (Main.database.getTables().remove(table)) refreshTableView(tablesTableView, Main.database.getTables());
+                //not enough time for the internal array list to relay?
+            }
+        });
+        contextMenu.getItems().addAll(menuItemDelete);
+        contextMenu.show(tablesTableView, mouseX, mouseY);
+    }
+
+    public void getMouseCoords(MouseEvent mouseEvent) {
+        this.mouseX = mouseEvent.getScreenX();
+        this.mouseY = mouseEvent.getScreenY();
     }
 }
 

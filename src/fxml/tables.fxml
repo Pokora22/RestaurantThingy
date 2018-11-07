@@ -22,16 +22,6 @@
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <AnchorPane fx:id="paneEditTableForm" layoutX="10.0" layoutY="10.0" prefHeight="410.0" prefWidth="425.0" style="-fx-background-color: rgb(245,245,245);" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <children>
-                  <TextField fx:id="textfieldNewTableID1" layoutX="59.0" layoutY="119.0" onAction="#addNewTable" />
-                  <TextField fx:id="textfieldNewTableNoSeats1" layoutX="59.0" layoutY="188.0" onAction="#addNewTable" />
-                  <Label layoutX="59.0" layoutY="95.0" prefHeight="24.0" prefWidth="149.0" text="Table ID" />
-                  <Label layoutX="59.0" layoutY="163.0" prefHeight="25.0" prefWidth="148.0" text="Number of seats" />
-                  <Button fx:id="btnEditTableSave" layoutX="59.0" layoutY="256.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="77.0" text="Save" />
-                  <Button fx:id="btnEditTableCancel" layoutX="199.0" layoutY="256.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="77.0" text="Cancel" />
-               </children>
-            </AnchorPane>
             <AnchorPane fx:id="paneNewTableForm" prefHeight="400.0" prefWidth="415.0" style="-fx-background-color: rgb(245,245,245);" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <TextField fx:id="textfieldNewTableID" layoutX="59.0" layoutY="119.0" onAction="#addNewTable" />
@@ -43,7 +33,7 @@
             </AnchorPane>
             <AnchorPane fx:id="paneTableView" prefHeight="400.0" prefWidth="415.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <TableView fx:id="tablesTableView" editable="true" prefHeight="400.0" prefWidth="415.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <TableView fx:id="tablesTableView" editable="true" onContextMenuRequested="#tableViewContextMenuRequested" onMouseMoved="#getMouseCoords" prefHeight="400.0" prefWidth="415.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <columns>
                       <TableColumn fx:id="tableColumnID" onEditCommit="#editSaveID" prefWidth="94.0" text="ID" />
                       <TableColumn fx:id="tableColumnSeats" onEditCommit="#editSaveSeats" prefWidth="85.0" text="No. seats" />
