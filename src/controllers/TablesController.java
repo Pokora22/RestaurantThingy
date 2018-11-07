@@ -74,6 +74,7 @@ public class TablesController extends Controller{
 
     public void addNewTable(ActionEvent actionEvent) {
         int tableID, tableSeats;
+
         try {
             tableID = Integer.parseInt(textfieldNewTableID.getText());
         }
