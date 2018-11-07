@@ -98,7 +98,8 @@ public class MenuController extends Controller{
     @FXML
     private void editSaveName(TableColumn.CellEditEvent<MenuItem, String> cellEditEvent) {
         MenuItem item = menuItemsTableView.getSelectionModel().getSelectedItem();
-        item.setName(cellEditEvent.getNewValue());
+        if(!cellEditEvent.getNewValue().isEmpty()) item.setName(cellEditEvent.getNewValue());
+        else showHint("Item name should not be empty.", menuItemsTableView);
 
         refreshTableView(menuItemsTableView ,Main.database.getMenuItems());
     }
@@ -106,7 +107,12 @@ public class MenuController extends Controller{
     @FXML
     private void editSavePrice(TableColumn.CellEditEvent<MenuItem, Double> cellEditEvent) {
         MenuItem item = menuItemsTableView.getSelectionModel().getSelectedItem();
-        item.setPrice(cellEditEvent.getNewValue());
+        try {
+            item.setPrice(cellEditEvent.getNewValue());
+        }
+        catch (Exception e){
+            showHint("Price cannot be empty.", menuItemsTableView);
+        }
 
         refreshTableView(menuItemsTableView ,Main.database.getMenuItems());
     }
