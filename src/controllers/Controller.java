@@ -1,14 +1,20 @@
 package controllers;
 
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Tooltip;
+import javafx.scene.input.ContextMenuEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import main.Main;
+import main.Table;
 
 import java.util.AbstractList;
 
@@ -48,5 +54,22 @@ public class Controller {
     protected void refreshTableView(TableView view, AbstractList list){
         view.getItems().clear();
         view.getItems().addAll(list); //Another band-aid for not using a proper observable list ...
+    }
+
+    protected void getMouseCoords(MouseEvent mouseEvent) {
+        this.mouseX = mouseEvent.getScreenX();
+        this.mouseY = mouseEvent.getScreenY();
+    }
+
+    protected void tableViewContextMenuRequested(TableView<Table> tableView, AbstractList list) {
+        ContextMenu contextMenu = new ContextMenu();
+        javafx.scene.control.MenuItem menuItemDelete = new javafx.scene.control.MenuItem("Delete entry");
+
+        menuItemDelete.setOnAction(event -> {
+            Table table = tableView.getSelectionModel().getSelectedItem();
+            if (list.remove(table)) refreshTableView(tableView, list);
+        });
+        contextMenu.getItems().addAll(menuItemDelete);
+        contextMenu.show(tableView, mouseX, mouseY);
     }
 }

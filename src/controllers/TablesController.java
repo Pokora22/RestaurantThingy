@@ -112,26 +112,12 @@ public class TablesController extends Controller{
         refreshTableView(tablesTableView, Main.database.getTables());
     }
 
+    TableView tableView = tablesTableView;
+
     @FXML
     private void tableViewContextMenuRequested(ContextMenuEvent contextMenuEvent) {
-        ContextMenu contextMenu = new ContextMenu();
-        javafx.scene.control.MenuItem menuItemDelete = new javafx.scene.control.MenuItem("Delete entry");
-
-        menuItemDelete.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                Table table = tablesTableView.getSelectionModel().getSelectedItem();
-                if (Main.database.getTables().remove(table)) refreshTableView(tablesTableView, Main.database.getTables());
-                //not enough time for the internal array list to relay?
-            }
-        });
-        contextMenu.getItems().addAll(menuItemDelete);
-        contextMenu.show(tablesTableView, mouseX, mouseY);
+        super.tableViewContextMenuRequested(tablesTableView, Main.database.getTables());
     }
 
-    public void getMouseCoords(MouseEvent mouseEvent) {
-        this.mouseX = mouseEvent.getScreenX();
-        this.mouseY = mouseEvent.getScreenY();
-    }
 }
 
