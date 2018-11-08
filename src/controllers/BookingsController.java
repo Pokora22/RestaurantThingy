@@ -42,7 +42,9 @@ public class BookingsController extends Controller{
     @FXML
     private void initialize(){
         comboBoxNewBookingTime.getItems().addAll(12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22);
+        comboBoxEditBookingTime.getItems().addAll(comboBoxNewBookingTime.getItems());
         comboBoxNewTableChoice.getItems().addAll(database.getTables());
+        comboBoxEditTableChoice.getItems().addAll(database.getTables());
         setFormDefault();
 
         refreshTableView(bookingsTableView, database.getBookings());
@@ -98,6 +100,17 @@ public class BookingsController extends Controller{
 
     @FXML
     private void tableViewContextMenuRequested(ContextMenuEvent contextMenuEvent) {
+        ContextMenu contextMenu = new ContextMenu();
+        MenuItem menuItemDelete = new MenuItem("Delete entry");
+        MenuItem menuItemEdit = new MenuItem("Edit entry");
+        contextMenu.getItems().addAll(menuItemDelete, menuItemEdit);
+
+        menuItemDelete.setOnAction(event -> {
+            if (database.getBookings().remove(tableSelection())) refreshTableView(bookingsTableView, database.getBookings());
+        });
+        menuItemEdit.setOnAction(event -> moveToEdit());
+
+        contextMenu.show(bookingsTableView, mouseX, mouseY);
     }
 
     @FXML
@@ -129,7 +142,19 @@ public class BookingsController extends Controller{
     }
 
     @FXML
-    private void moveToEdit(TableColumn.CellEditEvent<Booking, String> actionEvent) {
+    private void moveToEdit() {
         paneEditBookingForm.toFront();
+
+        datePickerEditBookingDateChoice.setValue(tableSelection().getStartDate());
+        comboBoxEditBookingTime.setValue(tableSelection().getStartTime().getHour());
+        comboBoxEditTableChoice.setValue(tableSelection().getTable());
+        textfieldEditBookingCustomerName.setText(tableSelection().getCustomerName());
+        textfieldEditBookingDuration.setText(String.valueOf(tableSelection().getDuration()));
+        textfieldEditBookingSeatsRequested.setText(String.valueOf(tableSelection().getCustomerAmnt()));
+
+        /*
+        comboBoxEditBookingTime.getSelectionModel().select(comboBoxEditBookingTime.getItems().indexOf(tableSelection().getStartTime().getHour()));
+        comboBoxEditTableChoice.getSelectionModel().select(comboBoxEditTableChoice.getItems().indexOf(tableSelection().getTable()));
+         */
     }
 }
