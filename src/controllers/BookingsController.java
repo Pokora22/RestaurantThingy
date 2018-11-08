@@ -88,11 +88,13 @@ public class BookingsController extends Controller{
         Table table = comboBoxTableChoice.getSelectionModel().getSelectedItem();
         String customerName = textfieldNewBookingCustomerName.getText();
         int customerAmnt = Integer.parseInt(textfieldNewBookingSeatsRequested.getText());
-        int duration = Integer.parseInt(textfieldNewBookingDuration.getText());
+        int duration = Integer.parseInt(textfieldNewBookingDuration.getText()); //TODO: All the exceptions + check why time and date turn out as epoch
         LocalDate startDate = textfieldNewBookingDateChoice.getValue();
         LocalTime startTime = LocalTime.ofSecondOfDay(comboBoxNewBookingTime.getValue() * 60 * 60);
 
         Main.database.getBookings().add(new Booking(table, customerAmnt, customerName, startDate, startTime, duration));
+
+        refreshTableView(bookingsTableView, Main.database.getBookings());
 
     }
 
