@@ -15,6 +15,8 @@ public class Database {
         bookings = new CustomLinkedList<>();
         menuItems = new CustomLinkedList<>();
         xStream = new XStream(new StaxDriver());
+
+        loadDB();
     }
 
     public CustomArrayList<Table> getTables() {
@@ -34,19 +36,31 @@ public class Database {
             loadBookings();
         } catch (IOException e) {
             e.printStackTrace();
-            new File("/db/bookings.xml");
+            try {
+                saveBookings();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
         }
         try {
             loadMenu();
         } catch (IOException e) {
             e.printStackTrace();
-            new File("/db/menu.xml");
+            try {
+                saveMenu();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
         }
         try {
             loadTables();
         } catch (IOException e) {
             e.printStackTrace();
-            new File("/db/tables.xml");
+            try {
+                saveTables();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
         }
     }
 
@@ -71,7 +85,7 @@ public class Database {
     private void loadTables() throws IOException {
         ObjectInputStream is = null;
         try {
-            is = xStream.createObjectInputStream(new FileReader("tables.xml"));
+            is = xStream.createObjectInputStream(new FileReader("src/db/tables.xml"));
             tables = (CustomArrayList<Table>) is.readObject();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
@@ -80,7 +94,7 @@ public class Database {
     }
 
     private void saveTables() throws IOException {
-        ObjectOutputStream out = xStream.createObjectOutputStream(new FileWriter("/db/tables.xml"));
+        ObjectOutputStream out = xStream.createObjectOutputStream(new FileWriter("src/db/tables.xml"));
         out.writeObject(tables);
         out.close();
     }
@@ -88,7 +102,7 @@ public class Database {
     private void loadMenu() throws IOException {
         ObjectInputStream is = null;
         try {
-            is = xStream.createObjectInputStream(new FileReader("/db/menu.xml"));
+            is = xStream.createObjectInputStream(new FileReader("src/db/menu.xml"));
             menuItems = (CustomLinkedList<MenuItem>) is.readObject();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
@@ -97,7 +111,7 @@ public class Database {
     }
 
     private void saveMenu() throws IOException {
-        ObjectOutputStream out = xStream.createObjectOutputStream(new FileWriter("/db/menu.xml"));
+        ObjectOutputStream out = xStream.createObjectOutputStream(new FileWriter("src/db/menu.xml"));
         out.writeObject(menuItems);
         out.close();
     }
@@ -105,7 +119,7 @@ public class Database {
     private void loadBookings() throws IOException {
         ObjectInputStream is = null;
         try {
-            is = xStream.createObjectInputStream(new FileReader("/db/bookings.xml"));
+            is = xStream.createObjectInputStream(new FileReader("src/db/bookings.xml"));
             bookings = (CustomLinkedList<Booking>) is.readObject();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
@@ -114,7 +128,7 @@ public class Database {
     }
 
     private void saveBookings() throws IOException {
-        ObjectOutputStream out = xStream.createObjectOutputStream(new FileWriter("/db/bookings.xml"));
+        ObjectOutputStream out = xStream.createObjectOutputStream(new FileWriter("src/db/bookings.xml"));
         out.writeObject(bookings);
         out.close();
     }
