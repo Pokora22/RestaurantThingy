@@ -6,10 +6,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.layout.AnchorPane;
@@ -18,13 +15,15 @@ import javafx.util.converter.IntegerStringConverter;
 import main.Main;
 import main.MenuItem;
 
+import static main.Main.database;
+
 public class MenuController extends Controller{
     @FXML
-    private Button btnNewMenuItemPane, btnViewMenuItemsPane, btnNewMenuItemAdd;
+    private Button btnNewMenuItemPane, btnViewMenuItemsPane, btnCancelEdit, btnSaveEdit;
     @FXML
-    private AnchorPane paneNewMenuItemForm, paneMenuItemView;
+    private AnchorPane paneNewMenuItemForm, paneMenuItemView, paneEditMenuItem;
     @FXML
-    private TextField textfieldNewMenuItemName, textfieldNewMenuItemPrice;
+    private TextField textfieldNewMenuItemName, textfieldNewMenuItemPrice, textfieldEditMenuItemPrice, textfieldEditMenuItemName;
     @FXML
     private TableView<MenuItem> menuItemsTableView;
     @FXML
@@ -34,25 +33,13 @@ public class MenuController extends Controller{
 
     @FXML
     private void initialize(){
-        refreshTableView(menuItemsTableView, Main.database.getMenuItems());
+        refreshTableView(menuItemsTableView, database.getMenuItems());
 
         tableColumnName.setCellValueFactory(cellData ->
                 new SimpleStringProperty(cellData.getValue().getName()));
-        tableColumnName.setCellFactory(TextFieldTableCell.forTableColumn());
 
         tableColumnPrice.setCellValueFactory(cellData ->
                 new SimpleDoubleProperty(cellData.getValue().getPrice()).asObject());
-        tableColumnPrice.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter(){
-            @Override
-            public Double fromString(String value) {
-                try {
-                    return super.fromString(value);
-                } catch (Exception e) {
-                    showHint("Field needs to be a positive number.", tableColumnPrice.getStyleableNode());
-                    return -1.0;
-                }
-            }
-        }));
     }
 
     @FXML
@@ -82,8 +69,8 @@ public class MenuController extends Controller{
             return;
         }
 
-        Main.database.getMenuItems().add(new MenuItem(name, price));
-        refreshTableView(menuItemsTableView, Main.database.getMenuItems());
+        database.getMenuItems().add(new MenuItem(name, price));
+        refreshTableView(menuItemsTableView, database.getMenuItems());
 
         textfieldNewMenuItemName.clear();
         textfieldNewMenuItemPrice.clear();
@@ -91,28 +78,47 @@ public class MenuController extends Controller{
 
     @FXML
     private void tableViewContextMenuRequested(ContextMenuEvent contextMenuEvent) {
-        super.tableViewContextMenuRequested(menuItemsTableView, Main.database.getMenuItems());
+        Object obj = tableSelection();
+        ContextMenu contextMenu = new ContextMenu();
+        javafx.scene.control.MenuItem menuItemDelete = new javafx.scene.control.MenuItem("Delete entry");
+        javafx.scene.control.MenuItem menuItemEdit = new javafx.scene.control.MenuItem("Edit entry");
+        contextMenu.getItems().addAll(menuItemDelete, menuItemEdit);
+
+        menuItemDelete.setOnAction(event -> {
+            if (database.getMenuItems().remove(obj)) refreshTableView(menuItemsTableView, database.getMenuItems());
+        });
+
+        menuItemEdit.setOnAction(event -> {
+            paneEditMenuItem.toFront();
+            textfieldEditMenuItemName.setText(((MenuItem) obj).getName());
+            textfieldEditMenuItemPrice.setText(String.valueOf(((MenuItem) obj).getPrice()));
+        });
+
+        contextMenu.show(menuItemsTableView, mouseX, mouseY);
     }
 
-    @FXML
-    private void editSaveName(TableColumn.CellEditEvent<MenuItem, String> cellEditEvent) {
-        MenuItem item = menuItemsTableView.getSelectionModel().getSelectedItem();
-        if(!cellEditEvent.getNewValue().isEmpty()) item.setName(cellEditEvent.getNewValue());
-        else showHint("Item name should not be empty.", menuItemsTableView);
-
-        refreshTableView(menuItemsTableView ,Main.database.getMenuItems());
+    private MenuItem tableSelection(){
+        return menuItemsTableView.getSelectionModel().getSelectedItem();
     }
 
-    @FXML
-    private void editSavePrice(TableColumn.CellEditEvent<MenuItem, Double> cellEditEvent) {
-        MenuItem item = menuItemsTableView.getSelectionModel().getSelectedItem();
+    public void saveMenuItemEdit(ActionEvent actionEvent) {
+        double newPrice;
         try {
-            item.setPrice(cellEditEvent.getNewValue());
+            newPrice = Double.parseDouble(textfieldEditMenuItemPrice.getText());
         }
         catch (Exception e){
-            showHint("Price cannot be empty.", menuItemsTableView);
+            showHint("Price cannot be empty.", textfieldEditMenuItemPrice);
+            return;
         }
 
-        refreshTableView(menuItemsTableView ,Main.database.getMenuItems());
+        tableSelection().setName(textfieldEditMenuItemName.getText());
+        tableSelection().setPrice(newPrice);
+
+        refreshTableView(menuItemsTableView, database.getMenuItems());
+        paneMenuItemView.toFront();
+    }
+
+    public void cancelMenuItemEdit(ActionEvent actionEvent) {
+        paneMenuItemView.toFront();
     }
 }

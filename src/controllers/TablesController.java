@@ -15,6 +15,8 @@ import main.Main;
 import main.MenuItem;
 import main.Table;
 
+import static main.Main.database;
+
 public class TablesController extends Controller{
     @FXML
     private TableColumn<Table, Integer> tableColumnID, tableColumnSeats;
@@ -117,7 +119,25 @@ public class TablesController extends Controller{
 
     @FXML
     private void tableViewContextMenuRequested(ContextMenuEvent contextMenuEvent) {
-        super.tableViewContextMenuRequested(tablesTableView, Main.database.getTables());
+        /*
+        Object obj = tableSelection();
+        ContextMenu contextMenu = new ContextMenu();
+        javafx.scene.control.MenuItem menuItemDelete = new javafx.scene.control.MenuItem("Delete entry");
+        javafx.scene.control.MenuItem menuItemEdit = new javafx.scene.control.MenuItem("Edit entry");
+        contextMenu.getItems().addAll(menuItemDelete, menuItemEdit);
+
+        menuItemDelete.setOnAction(event -> {
+            if (database.getMenuItems().remove(obj)) refreshTableView(menuItemsTableView, database.getMenuItems());
+        });
+
+        menuItemEdit.setOnAction(event -> {
+            paneEditMenuItem.toFront();
+            textfieldEditMenuItemName.setText(((MenuItem) obj).getName());
+            textfieldEditMenuItemPrice.setText(String.valueOf(((MenuItem) obj).getPrice()));
+        });
+
+        contextMenu.show(menuItemsTableView, mouseX, mouseY);
+        */
     }
 
 }

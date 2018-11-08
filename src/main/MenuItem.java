@@ -14,7 +14,7 @@ public class MenuItem {
     }
 
     public void setName(String name) {
-        if (name != null) this.name = name;
+        if (name != null && !name.isEmpty()) this.name = name;
     }
 
     public double getPrice() {

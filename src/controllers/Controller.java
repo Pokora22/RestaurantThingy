@@ -61,16 +61,4 @@ public class Controller {
         this.mouseX = mouseEvent.getScreenX();
         this.mouseY = mouseEvent.getScreenY();
     }
-
-    protected void tableViewContextMenuRequested(TableView tableView, AbstractList list) {
-        ContextMenu contextMenu = new ContextMenu();
-        javafx.scene.control.MenuItem menuItemDelete = new javafx.scene.control.MenuItem("Delete entry");
-
-        menuItemDelete.setOnAction(event -> {
-            Object obj = tableView.getSelectionModel().getSelectedItem();
-            if (list.remove(obj)) refreshTableView(tableView, list);
-        });
-        contextMenu.getItems().addAll(menuItemDelete);
-        contextMenu.show(tableView, mouseX, mouseY);
-    }
 }
