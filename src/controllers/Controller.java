@@ -51,7 +51,7 @@ public class Controller {
                 sourceNode.localToScreen(sourceNode.getTranslateY(), sourceNode.getTranslateY()).getY() + 25); //get height from the source node somehow - how?
     }
 
-    protected void refreshTableView(TableView view, AbstractList list){
+    protected void refreshTableView(TableView view, AbstractList list){ //TODO: Add filter?
         view.getItems().clear();
         view.getItems().addAll(list); //Another band-aid for not using a proper observable list ...
     }

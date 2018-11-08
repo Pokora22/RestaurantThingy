@@ -26,6 +26,11 @@ public class Main extends Application {
         database.getBookings().add(new Booking(database.getTables().get(0), 3, "name", LocalDate.now(), LocalTime.now(), 1));
         database.getBookings().add(new Booking(database.getTables().get(0), 4, "name", LocalDate.now(), LocalTime.now(), 1));
 
+        database.getMenuItems().add(new MenuItem("Name1", 1.0));
+        database.getMenuItems().add(new MenuItem("Name2", 2.0));
+        database.getMenuItems().add(new MenuItem("Name3", 3.0));
+        database.getMenuItems().add(new MenuItem("Name4", 4.0));
+
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/mainWindow.fxml"));
         primaryStage.setTitle("Restaurant Management");
         primaryStage.setScene(new Scene(root, 300, 275));
