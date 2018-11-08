@@ -12,8 +12,11 @@ import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import main.Table;
 
 import java.util.AbstractList;
+
+import static main.Main.database;
 
 
 public class Controller {
@@ -51,6 +54,7 @@ public class Controller {
     protected void refreshTableView(TableView view, AbstractList list){ //TODO: Add filter?
         view.getItems().clear();
         view.getItems().addAll(list); //Another band-aid for not using a proper observable list ...
+        database.saveDB();
     }
 
     @FXML
