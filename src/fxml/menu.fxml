@@ -24,8 +24,8 @@
          <children>
             <AnchorPane fx:id="paneEditMenuItem" layoutX="10.0" layoutY="10.0" prefHeight="410.0" prefWidth="425.0" style="-fx-background-color: rgb(245,245,245);" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <TextField fx:id="textfieldEditMenuItemName" layoutX="59.0" layoutY="119.0" onAction="#addNewMenuItem" />
-                  <TextField fx:id="textfieldEditMenuItemPrice" layoutX="59.0" layoutY="188.0" onAction="#addNewMenuItem" />
+                  <TextField fx:id="textfieldEditMenuItemName" layoutX="59.0" layoutY="119.0" onAction="#saveMenuItemEdit" />
+                  <TextField fx:id="textfieldEditMenuItemPrice" layoutX="59.0" layoutY="188.0" onAction="#saveMenuItemEdit" />
                   <Label layoutX="59.0" layoutY="95.0" prefHeight="24.0" prefWidth="149.0" text="Menu Item Name" />
                   <Label layoutX="59.0" layoutY="163.0" prefHeight="25.0" prefWidth="148.0" text="Menu Item Price" />
                   <Button fx:id="btnSaveEdit" layoutX="59.0" layoutY="256.0" mnemonicParsing="false" onAction="#saveMenuItemEdit" prefHeight="29.0" prefWidth="77.0" text="Save" />
@@ -45,8 +45,8 @@
                <children>
                   <TableView fx:id="menuItemsTableView" editable="true" onContextMenuRequested="#tableViewContextMenuRequested" onMouseMoved="#getMouseCoords" prefHeight="400.0" prefWidth="415.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <columns>
-                        <TableColumn fx:id="tableColumnName" prefWidth="94.0" text="Name" />
-                        <TableColumn fx:id="tableColumnPrice" prefWidth="85.0" text="Price" />
+                        <TableColumn fx:id="tableColumnName" onEditStart="#moveToEdit" prefWidth="94.0" text="Name" />
+                        <TableColumn fx:id="tableColumnPrice" onEditStart="#moveToEdit" prefWidth="85.0" text="Price" />
                      </columns>
                   </TableView>
                </children>

@@ -1,7 +1,6 @@
 package controllers;
 
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -13,8 +12,6 @@ import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import main.Main;
-import main.Table;
 
 import java.util.AbstractList;
 
@@ -36,7 +33,7 @@ public class Controller {
     }
 
     @FXML
-    private void switchToSourceScene(ActionEvent actionEvent){
+    protected void switchToSourceScene(ActionEvent actionEvent){
         Stage sourceStage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
 
         sourceStage.setTitle("Restaurant Management");

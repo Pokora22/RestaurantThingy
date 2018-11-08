@@ -2,17 +2,13 @@ package controllers;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.ContextMenuEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.WindowEvent;
 import javafx.util.converter.IntegerStringConverter;
 import main.Main;
-import main.MenuItem;
 import main.Table;
 
 import static main.Main.database;
@@ -21,46 +17,23 @@ public class TablesController extends Controller{
     @FXML
     private TableColumn<Table, Integer> tableColumnID, tableColumnSeats;
     @FXML
-    private AnchorPane paneNewTableForm, paneTableView;
+    private AnchorPane paneNewTableForm, paneTableView, paneEditTableForm;
     @FXML
-    private Button btnNewTablePane, btnViewTablesPane;
+    private Button btnNewTablePane, btnViewTablesPane, btnSaveTableEdit, btnCancelTableEdit;
     @FXML
     private TableView<Table> tablesTableView;
     @FXML
-    private TextField textfieldNewTableID, textfieldNewTableNoSeats;
-    //TODO: Maybe change edit to contextual menu ? + Deleting
+    private TextField textfieldNewTableID, textfieldNewTableNoSeats, textfieldEditTableID, textfieldEditTableNoSeats;
 
     @FXML
     private void initialize(){
-        refreshTableView(tablesTableView, Main.database.getTables());
+        refreshTableView(tablesTableView, database.getTables());
 
         tableColumnID.setCellValueFactory(cellData ->
         new SimpleIntegerProperty(cellData.getValue().getTableID()).asObject());
-        tableColumnID.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter(){
-            @Override
-            public Integer fromString(String value) {
-                try {
-                    return super.fromString(value);
-                } catch (Exception e) {
-                    showHint("Field needs to be a positive whole number.", tableColumnID.getStyleableNode());
-                    return -1;
-                }
-            }
-        })); //thank you stackexchange - cellfactory set to text field allows for editing in the table
 
         tableColumnSeats.setCellValueFactory(cellData ->
         new SimpleIntegerProperty(cellData.getValue().getNumOfSeats()).asObject());
-        tableColumnSeats.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter(){
-            @Override
-            public Integer fromString(String value) {
-                try {
-                    return super.fromString(value);
-                } catch (Exception e) {
-                    showHint("Field needs to be a whole number (0-9).", tableColumnID.getStyleableNode());
-                    return -1;
-                }
-            }
-        }));
     }
 
     @FXML
@@ -68,13 +41,11 @@ public class TablesController extends Controller{
         if(actionEvent.getSource() == btnNewTablePane) paneNewTableForm.toFront();
         else if (actionEvent.getSource() == btnViewTablesPane) {
             paneTableView.toFront();
-
         }
     }
 
-
-
-    public void addNewTable(ActionEvent actionEvent) {
+    @FXML
+    private void addNewTable(ActionEvent actionEvent) {
         int tableID, tableSeats;
 
         try {
@@ -92,8 +63,8 @@ public class TablesController extends Controller{
             return;
         }
 
-        Main.database.getTables().add(new Table(tableID, tableSeats));
-        refreshTableView(tablesTableView, Main.database.getTables());
+        database.getTables().add(new Table(tableID, tableSeats));
+        refreshTableView(tablesTableView, database.getTables());
 
         textfieldNewTableID.clear();
         textfieldNewTableNoSeats.clear();
@@ -104,7 +75,7 @@ public class TablesController extends Controller{
         Table table = tablesTableView.getSelectionModel().getSelectedItem();
         table.setTableID(tableIntegerCellEditEvent.getNewValue());
 
-        refreshTableView(tablesTableView, Main.database.getTables());
+        refreshTableView(tablesTableView, database.getTables());
     }
 
     @FXML
@@ -112,33 +83,65 @@ public class TablesController extends Controller{
         Table table = tablesTableView.getSelectionModel().getSelectedItem();
         table.setNumOfSeats(tableIntegerCellEditEvent.getNewValue());
 
-        refreshTableView(tablesTableView, Main.database.getTables());
+        refreshTableView(tablesTableView, database.getTables());
     }
-
-    TableView tableView = tablesTableView;
 
     @FXML
     private void tableViewContextMenuRequested(ContextMenuEvent contextMenuEvent) {
-        /*
-        Object obj = tableSelection();
         ContextMenu contextMenu = new ContextMenu();
-        javafx.scene.control.MenuItem menuItemDelete = new javafx.scene.control.MenuItem("Delete entry");
-        javafx.scene.control.MenuItem menuItemEdit = new javafx.scene.control.MenuItem("Edit entry");
+        MenuItem menuItemDelete = new MenuItem("Delete entry");
+        MenuItem menuItemEdit = new MenuItem("Edit entry");
         contextMenu.getItems().addAll(menuItemDelete, menuItemEdit);
 
         menuItemDelete.setOnAction(event -> {
-            if (database.getMenuItems().remove(obj)) refreshTableView(menuItemsTableView, database.getMenuItems());
+            if (database.getTables().remove(tableSelection())) refreshTableView(tablesTableView, database.getTables());
         });
+        menuItemEdit.setOnAction(event -> moveToEdit());
 
-        menuItemEdit.setOnAction(event -> {
-            paneEditMenuItem.toFront();
-            textfieldEditMenuItemName.setText(((MenuItem) obj).getName());
-            textfieldEditMenuItemPrice.setText(String.valueOf(((MenuItem) obj).getPrice()));
-        });
-
-        contextMenu.show(menuItemsTableView, mouseX, mouseY);
-        */
+        contextMenu.show(tablesTableView, mouseX, mouseY);
     }
 
+    @FXML
+    private void moveToEdit(){
+        paneEditTableForm.toFront();
+        textfieldEditTableID.setText(String.valueOf(tableSelection().getTableID()));
+        textfieldEditTableNoSeats.setText(String.valueOf(tableSelection().getNumOfSeats()));
+    }
+
+    private Table tableSelection(){
+        return tablesTableView.getSelectionModel().getSelectedItem();
+    }
+
+    @FXML
+    private void saveTableEdit(ActionEvent actionEvent) {
+        Table table = tableSelection();
+        int newId, newSeats;
+        try{
+            newId = Integer.parseInt(textfieldEditTableID.getText());
+        }
+        catch (Exception e){
+            showHint("Field must be a number.", textfieldEditTableID);
+            return;
+        }
+
+        try{
+            newSeats = Integer.parseInt(textfieldEditTableNoSeats.getText());
+        }
+        catch (Exception e){
+            showHint("Field must be a number.", textfieldEditTableNoSeats);
+            return;
+        }
+
+        table.setTableID(newId);
+        table.setNumOfSeats(newSeats);
+
+        refreshTableView(tablesTableView, database.getTables());
+        paneTableView.toFront();
+    }
+
+    @FXML
+    private void cancelTableEdit(ActionEvent actionEvent) {
+        paneTableView.toFront();
+    }
 }
 

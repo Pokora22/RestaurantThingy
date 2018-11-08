@@ -78,23 +78,24 @@ public class MenuController extends Controller{
 
     @FXML
     private void tableViewContextMenuRequested(ContextMenuEvent contextMenuEvent) {
-        Object obj = tableSelection();
         ContextMenu contextMenu = new ContextMenu();
         javafx.scene.control.MenuItem menuItemDelete = new javafx.scene.control.MenuItem("Delete entry");
         javafx.scene.control.MenuItem menuItemEdit = new javafx.scene.control.MenuItem("Edit entry");
         contextMenu.getItems().addAll(menuItemDelete, menuItemEdit);
 
         menuItemDelete.setOnAction(event -> {
-            if (database.getMenuItems().remove(obj)) refreshTableView(menuItemsTableView, database.getMenuItems());
+            if (database.getMenuItems().remove(tableSelection())) refreshTableView(menuItemsTableView, database.getMenuItems());
         });
-
-        menuItemEdit.setOnAction(event -> {
-            paneEditMenuItem.toFront();
-            textfieldEditMenuItemName.setText(((MenuItem) obj).getName());
-            textfieldEditMenuItemPrice.setText(String.valueOf(((MenuItem) obj).getPrice()));
-        });
+        menuItemEdit.setOnAction(event -> moveToEdit());
 
         contextMenu.show(menuItemsTableView, mouseX, mouseY);
+    }
+
+    @FXML
+    private void moveToEdit() {
+        paneEditMenuItem.toFront();
+        textfieldEditMenuItemName.setText(tableSelection().getName());
+        textfieldEditMenuItemPrice.setText(String.valueOf(tableSelection().getPrice()));
     }
 
     private MenuItem tableSelection(){
