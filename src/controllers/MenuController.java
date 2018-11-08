@@ -92,7 +92,6 @@ public class MenuController extends Controller{
     @FXML
     private void tableViewContextMenuRequested(ContextMenuEvent contextMenuEvent) {
         super.tableViewContextMenuRequested(menuItemsTableView, Main.database.getMenuItems());
-        //TODO: Add event action to delete
     }
 
     @FXML

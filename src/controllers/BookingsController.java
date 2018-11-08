@@ -25,9 +25,11 @@ import java.time.LocalTime;
 
 public class BookingsController extends Controller{
     @FXML
-    private DatePicker textfieldNewBookingDateChosen;
+    private DatePicker textfieldNewBookingDateChoice;
     @FXML
-    private ComboBox textfieldNewBookingTableChosen;
+    private ComboBox<Table> comboBoxTableChoice;
+    @FXML
+    private ComboBox<Integer> comboBoxNewBookingTime;
     @FXML
     private Button btnNewBookingPane, btnViewBookingsPane, btnNewBookingAdd;
     @FXML
@@ -35,8 +37,7 @@ public class BookingsController extends Controller{
     @FXML
     private TextField textfieldNewBookingCustomerName,
             textfieldNewBookingSeatsRequested,
-            textfieldNewBookingDuration,
-            textfieldNewBookingTime;
+            textfieldNewBookingDuration;
     @FXML
     private TableView<Booking> bookingsTableView;
     @FXML
@@ -48,6 +49,9 @@ public class BookingsController extends Controller{
 
     @FXML
     private void initialize(){
+        comboBoxNewBookingTime.getItems().addAll(12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22);
+        comboBoxTableChoice.getItems().addAll(Main.database.getTables());
+
         refreshTableView(bookingsTableView, Main.database.getBookings());
 
         tableColumnCustomerName.setCellValueFactory(cellData ->
@@ -73,10 +77,23 @@ public class BookingsController extends Controller{
 
     @FXML
     private void handleButtonAction(ActionEvent actionEvent) {
+        if(actionEvent.getSource() == btnNewBookingPane) paneNewBookingForm.toFront();
+        else if (actionEvent.getSource() == btnViewBookingsPane) {
+            paneBookingView.toFront();
+        }
     }
 
     @FXML
     private void addNewBooking(ActionEvent actionEvent) {
+        Table table = comboBoxTableChoice.getSelectionModel().getSelectedItem();
+        String customerName = textfieldNewBookingCustomerName.getText();
+        int customerAmnt = Integer.parseInt(textfieldNewBookingSeatsRequested.getText());
+        int duration = Integer.parseInt(textfieldNewBookingDuration.getText());
+        LocalDate startDate = textfieldNewBookingDateChoice.getValue();
+        LocalTime startTime = LocalTime.ofSecondOfDay(comboBoxNewBookingTime.getValue() * 60 * 60);
+
+        Main.database.getBookings().add(new Booking(table, customerAmnt, customerName, startDate, startTime, duration));
+
     }
 
     @FXML

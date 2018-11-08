@@ -15,7 +15,7 @@ public class Booking {
     private LocalTime startTime;
     private int duration;
 
-    Booking(Table table, int customerAmnt, String customerName, LocalDate startDate, LocalTime startTime, int duration){
+    public Booking(Table table, int customerAmnt, String customerName, LocalDate startDate, LocalTime startTime, int duration){
         this.table = table != null? table: new Table(0, 0);
         this.customerAmnt = customerAmnt > 0? customerAmnt: 0;
         this.customerName = (customerName != null && !customerName.isEmpty())? customerName : "CUSTOMER NAME WAS OMITTED";
