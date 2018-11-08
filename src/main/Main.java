@@ -33,10 +33,8 @@ public class Main extends Application {
 
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/mainWindow.fxml"));
         primaryStage.setTitle("Restaurant Management");
-        primaryStage.setScene(new Scene(root, 300, 275));
+        primaryStage.setScene(new Scene(root));
         primaryStage.show();
-
-
     }
 
     public static void main(String[] args) {

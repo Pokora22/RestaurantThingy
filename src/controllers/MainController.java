@@ -38,9 +38,8 @@ public class MainController extends Controller{
         FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlLocation));
         Parent root = loader.load();
         Controller controller = loader.getController();
-        //controller.setSourceController(this);
         controller.setSourceScene(sourceStage.getScene());
         sourceStage.setTitle(windowTitle);
-        sourceStage.setScene(new Scene(root, 600, 400));
+        sourceStage.setScene(new Scene(root));
     }
 }
