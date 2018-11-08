@@ -25,7 +25,7 @@ public class Table {
     }
 
     public String toString(){
-        return "main.Table no: " + getTableID() + " Seats: " + getNumOfSeats();
+        return "Table no: " + getTableID() + " Seats: " + getNumOfSeats();
     }
 
 
