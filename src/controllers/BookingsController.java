@@ -113,8 +113,22 @@ public class BookingsController extends Controller{
         contextMenu.show(bookingsTableView, mouseX, mouseY);
     }
 
+    private Booking tableSelection(){
+        return bookingsTableView.getSelectionModel().getSelectedItem();
+    }
+
+    private void setFormDefault(){
+        comboBoxNewBookingTime.getSelectionModel().selectFirst();
+        comboBoxNewTableChoice.getSelectionModel().selectFirst();
+        datePickerNewBookingDateChoice.setValue(LocalDate.now());
+
+        textfieldNewBookingCustomerName.clear();
+        textfieldNewBookingDuration.clear();
+        textfieldNewBookingSeatsRequested.clear();
+    }
+
     @FXML
-    private void editSaveCustomerName(TableColumn.CellEditEvent cellEditEvent) {
+    private void saveEditBooking(ActionEvent actionEvent) {
         String name;
         try {
             tableSelection().setDuration(Integer.parseInt(textfieldEditBookingDuration.getText()));
@@ -139,25 +153,6 @@ public class BookingsController extends Controller{
         tableSelection().setStartDate(datePickerEditBookingDateChoice.getValue());
         tableSelection().setStartTime(LocalTime.ofSecondOfDay(comboBoxEditBookingTime.getValue() * 60 * 60));
         tableSelection().setTable(comboBoxEditTableChoice.getValue());
-    }
-
-    private Booking tableSelection(){
-        return bookingsTableView.getSelectionModel().getSelectedItem();
-    }
-
-    private void setFormDefault(){
-        comboBoxNewBookingTime.getSelectionModel().selectFirst();
-        comboBoxNewTableChoice.getSelectionModel().selectFirst();
-        datePickerNewBookingDateChoice.setValue(LocalDate.now());
-
-        textfieldNewBookingCustomerName.clear();
-        textfieldNewBookingDuration.clear();
-        textfieldNewBookingSeatsRequested.clear();
-    }
-
-    @FXML
-    private void saveEditBooking(ActionEvent actionEvent) {
-
     }
 
     @FXML
