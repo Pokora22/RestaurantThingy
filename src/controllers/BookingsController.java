@@ -153,6 +153,9 @@ public class BookingsController extends Controller{
         tableSelection().setStartDate(datePickerEditBookingDateChoice.getValue());
         tableSelection().setStartTime(LocalTime.ofSecondOfDay(comboBoxEditBookingTime.getValue() * 60 * 60));
         tableSelection().setTable(comboBoxEditTableChoice.getValue());
+
+        refreshTableView(bookingsTableView, database.getBookings());
+        paneBookingView.toFront();
     }
 
     @FXML
