@@ -115,6 +115,30 @@ public class BookingsController extends Controller{
 
     @FXML
     private void editSaveCustomerName(TableColumn.CellEditEvent cellEditEvent) {
+        String name;
+        try {
+            tableSelection().setDuration(Integer.parseInt(textfieldEditBookingDuration.getText()));
+        }
+        catch (Exception e){
+            showHint("Duration cannot be empty.", textfieldEditBookingDuration);
+            return;
+        }
+        try{
+            tableSelection().setCustomerAmnt(Integer.parseInt(textfieldEditBookingSeatsRequested.getText()));
+        }
+        catch (Exception e){
+            showHint("Number of customers cannot be empty.", textfieldEditBookingSeatsRequested);
+            return;
+        }
+        name = textfieldEditBookingCustomerName.getText();
+        if(name.isEmpty()){
+            showHint("Name should not be empty.", textfieldEditBookingCustomerName);
+            return;
+        }
+        tableSelection().setCustomerName(name);
+        tableSelection().setStartDate(datePickerEditBookingDateChoice.getValue());
+        tableSelection().setStartTime(LocalTime.ofSecondOfDay(comboBoxEditBookingTime.getValue() * 60 * 60));
+        tableSelection().setTable(comboBoxEditTableChoice.getValue());
     }
 
     private Booking tableSelection(){
@@ -151,10 +175,5 @@ public class BookingsController extends Controller{
         textfieldEditBookingCustomerName.setText(tableSelection().getCustomerName());
         textfieldEditBookingDuration.setText(String.valueOf(tableSelection().getDuration()));
         textfieldEditBookingSeatsRequested.setText(String.valueOf(tableSelection().getCustomerAmnt()));
-
-        /*
-        comboBoxEditBookingTime.getSelectionModel().select(comboBoxEditBookingTime.getItems().indexOf(tableSelection().getStartTime().getHour()));
-        comboBoxEditTableChoice.getSelectionModel().select(comboBoxEditTableChoice.getItems().indexOf(tableSelection().getTable()));
-         */
     }
 }
