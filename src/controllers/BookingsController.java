@@ -1,47 +1,39 @@
 package controllers;
 
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.ModifiableObservableListBase;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.ComboBoxTableCell;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.util.StringConverter;
-import javafx.util.converter.DoubleStringConverter;
 import main.Booking;
-import main.Database;
-import main.Main;
 import main.Table;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import static main.Main.*;
+
 public class BookingsController extends Controller{
     @FXML
-    private DatePicker textfieldNewBookingDateChoice;
+    private DatePicker datePickerNewBookingDateChoice, datePickerEditBookingDateChoice;
     @FXML
-    private ComboBox<Table> comboBoxTableChoice;
+    private ComboBox<Table> comboBoxNewTableChoice, comboBoxEditTableChoice;
     @FXML
-    private ComboBox<Integer> comboBoxNewBookingTime;
+    private ComboBox<Integer> comboBoxNewBookingTime, comboBoxEditBookingTime;
     @FXML
     private Button btnNewBookingPane, btnViewBookingsPane, btnNewBookingAdd;
     @FXML
-    private AnchorPane paneNewBookingForm, paneBookingView;
+    private AnchorPane paneNewBookingForm, paneBookingView, paneEditBookingForm;
     @FXML
-    private TextField textfieldNewBookingCustomerName,
-            textfieldNewBookingSeatsRequested,
-            textfieldNewBookingDuration;
+    private TextField textfieldNewBookingCustomerName, textfieldNewBookingSeatsRequested, textfieldEditBookingDuration,
+            textfieldNewBookingDuration, textfieldEditBookingCustomerName, textfieldEditBookingSeatsRequested;
     @FXML
     private TableView<Booking> bookingsTableView;
     @FXML
-    private TableColumn<Booking, String> tableColumnCustomerName, tableColumnDate, tableColumnTime;
+    private TableColumn<Booking, String> tableColumnCustomerName, tableColumnDate, tableColumnTime, tableColumnBookingEndTime;
     @FXML
     private TableColumn<Booking, Integer> tableColumnCustomerAmnt, tableColumnBookingDuration;
     @FXML
@@ -50,9 +42,10 @@ public class BookingsController extends Controller{
     @FXML
     private void initialize(){
         comboBoxNewBookingTime.getItems().addAll(12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22);
-        comboBoxTableChoice.getItems().addAll(Main.database.getTables());
+        comboBoxNewTableChoice.getItems().addAll(database.getTables());
+        setFormDefault();
 
-        refreshTableView(bookingsTableView, Main.database.getBookings());
+        refreshTableView(bookingsTableView, database.getBookings());
 
         tableColumnCustomerName.setCellValueFactory(cellData ->
                 new SimpleStringProperty(cellData.getValue().getCustomerName()));
@@ -73,6 +66,8 @@ public class BookingsController extends Controller{
         tableColumnTime.setCellValueFactory(cellData->
                 new SimpleStringProperty(cellData.getValue().getStartTime().toString()));
 
+        tableColumnBookingEndTime.setCellValueFactory(cellData->
+                new SimpleStringProperty(cellData.getValue().getEndTime().toString()));
     }
 
     @FXML
@@ -85,17 +80,20 @@ public class BookingsController extends Controller{
 
     @FXML
     private void addNewBooking(ActionEvent actionEvent) {
-        Table table = comboBoxTableChoice.getSelectionModel().getSelectedItem();
+        Table table = comboBoxNewTableChoice.getSelectionModel().getSelectedItem();
         String customerName = textfieldNewBookingCustomerName.getText();
         int customerAmnt = Integer.parseInt(textfieldNewBookingSeatsRequested.getText());
         int duration = Integer.parseInt(textfieldNewBookingDuration.getText()); //TODO: All the exceptions + check why time and date turn out as epoch
-        LocalDate startDate = textfieldNewBookingDateChoice.getValue();
+        LocalDate startDate = datePickerNewBookingDateChoice.getValue();
         LocalTime startTime = LocalTime.ofSecondOfDay(comboBoxNewBookingTime.getValue() * 60 * 60);
+        System.out.println(startTime);
+        System.out.println(startDate);
+        System.out.println(comboBoxNewBookingTime.getValue());
 
-        Main.database.getBookings().add(new Booking(table, customerAmnt, customerName, startDate, startTime, duration));
+        database.getBookings().add(new Booking(table, customerAmnt, customerName, startDate, startTime, duration));
 
-        refreshTableView(bookingsTableView, Main.database.getBookings());
-
+        setFormDefault();
+        refreshTableView(bookingsTableView, database.getBookings());
     }
 
     @FXML
@@ -104,5 +102,34 @@ public class BookingsController extends Controller{
 
     @FXML
     private void editSaveCustomerName(TableColumn.CellEditEvent cellEditEvent) {
+    }
+
+    private Booking tableSelection(){
+        return bookingsTableView.getSelectionModel().getSelectedItem();
+    }
+
+    private void setFormDefault(){
+        comboBoxNewBookingTime.getSelectionModel().selectFirst();
+        comboBoxNewTableChoice.getSelectionModel().selectFirst();
+        datePickerNewBookingDateChoice.setValue(LocalDate.now());
+
+        textfieldNewBookingCustomerName.clear();
+        textfieldNewBookingDuration.clear();
+        textfieldNewBookingSeatsRequested.clear();
+    }
+
+    @FXML
+    private void saveEditBooking(ActionEvent actionEvent) {
+
+    }
+
+    @FXML
+    private void editBookingCancel(ActionEvent actionEvent) {
+        paneBookingView.toFront();
+    }
+
+    @FXML
+    private void moveToEdit(TableColumn.CellEditEvent<Booking, String> actionEvent) {
+        paneEditBookingForm.toFront();
     }
 }

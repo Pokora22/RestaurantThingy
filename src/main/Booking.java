@@ -65,6 +65,8 @@ public class Booking {
         if (startDate != null) this.startDate = startDate;
     }
 
+    public LocalTime getEndTime(){ return startTime.plusHours(duration);}
+
     public LocalTime getStartTime() {
         return startTime;
     }

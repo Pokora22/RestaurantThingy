@@ -1,18 +1,12 @@
 package controllers;
 
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.util.converter.DoubleStringConverter;
-import javafx.util.converter.IntegerStringConverter;
-import main.Main;
 import main.MenuItem;
 
 import static main.Main.database;
@@ -102,7 +96,8 @@ public class MenuController extends Controller{
         return menuItemsTableView.getSelectionModel().getSelectedItem();
     }
 
-    public void saveMenuItemEdit(ActionEvent actionEvent) {
+    @FXML
+    private void saveMenuItemEdit(ActionEvent actionEvent) {
         double newPrice;
         try {
             newPrice = Double.parseDouble(textfieldEditMenuItemPrice.getText());
@@ -119,7 +114,8 @@ public class MenuController extends Controller{
         paneMenuItemView.toFront();
     }
 
-    public void cancelMenuItemEdit(ActionEvent actionEvent) {
+    @FXML
+    private void cancelMenuItemEdit(ActionEvent actionEvent) {
         paneMenuItemView.toFront();
     }
 }

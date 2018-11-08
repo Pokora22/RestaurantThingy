@@ -39,22 +39,14 @@ public class CustomArrayList <T> extends AbstractList<T> implements Iterable<T>{
 
     @Override
     public boolean remove(Object item) {
-        if (item.getClass() == Table.class) {
-            for (int i = 0; i < this.size(); i++) {
-                if(list[i].getContent().equals(item)){
-                    for(int j = i; j < list.length; j++){
-                        if(list[j].next != null) list[j] = list[j+1];
-                        else{
-                            list[j] = null;
+        for (int i = 0; i < this.size(); i++) {
+            if(list[i].getContent().equals(item)){
+                if(i > 0) list[i-1].next = list[i].next;
 
-                            for(int k = 0; k < j; k++){
-                                list[k].next = list[k+1];
-                            }
-                            break;
-                        }
-                    }
-                    return true;
+                for (int j = i; j < this.size(); j++) {
+                    list[j] = list[j].next;
                 }
+                return true;
             }
         }
         return false;
