@@ -29,9 +29,14 @@ public class CustomLinkedList <T> extends AbstractList<T> implements Iterable<T>
 
     @Override
     public boolean remove(Object item) {
+        if (head.getContent().equals(item)){
+            head = null;
+            return true;
+        }
+
         for (Node temp = head; temp.next != null; temp = temp.next) {
-            if (temp.next.equals(item)){
-                while(temp.next != null){
+            if (temp.next.getContent().equals(item)){
+                while(temp != null && temp.next != null){
                     temp.next = temp.next.next;
                     temp = temp.next;
                 }
