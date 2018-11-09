@@ -32,7 +32,7 @@ public class OrderController extends Controller{
 
     @FXML
     private void initialize() {
-        refreshTableView(orderTableView, order);
+        refreshTableView(orderTableView, order); //TODO: Fix nullpointer
 
         tableColumnOrderItemName.setCellValueFactory(cellData->
                 new SimpleStringProperty(cellData.getValue().getName()));
