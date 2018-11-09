@@ -15,19 +15,24 @@ import static main.Main.database;
 
 public class TablesController extends Controller{
     @FXML
+    private ComboBox<Integer> comboBoxNewTableSeatsNumber, comboBoxEditTableSeatsNumber;
+    @FXML
     private TableColumn<Table, Integer> tableColumnID, tableColumnSeats;
     @FXML
     private AnchorPane paneNewTableForm, paneTableView, paneEditTableForm;
     @FXML
-    private Button btnNewTablePane, btnViewTablesPane, btnSaveTableEdit, btnCancelTableEdit;
+    private Button btnNewTablePane, btnViewTablesPane;
     @FXML
     private TableView<Table> tablesTableView;
     @FXML
-    private TextField textfieldNewTableID, textfieldNewTableNoSeats, textfieldEditTableID, textfieldEditTableNoSeats;
+    private TextField textfieldNewTableID, textfieldEditTableID;
 
     @FXML
     private void initialize(){
         refreshTableView(tablesTableView, database.getTables());
+        comboBoxEditTableSeatsNumber.getItems().addAll(1, 2, 3, 4, 5, 6, 7, 8);
+        comboBoxNewTableSeatsNumber.getItems().addAll(comboBoxEditTableSeatsNumber.getItems());
+        comboBoxNewTableSeatsNumber.getSelectionModel().selectFirst();
 
         tableColumnID.setCellValueFactory(cellData ->
         new SimpleIntegerProperty(cellData.getValue().getTableID()).asObject());
@@ -46,7 +51,7 @@ public class TablesController extends Controller{
 
     @FXML
     private void addNewTable(ActionEvent actionEvent) {
-        int tableID, tableSeats;
+        int tableID;
 
         try {
             tableID = Integer.parseInt(textfieldNewTableID.getText());
@@ -55,19 +60,11 @@ public class TablesController extends Controller{
             showHint("Field needs to be a whole number.", textfieldNewTableID);
             return;
         }
-        try {
-            tableSeats = Integer.parseInt(textfieldNewTableNoSeats.getText());
-        }
-        catch (Exception e){
-            showHint("Field needs to be a whole number.", textfieldNewTableNoSeats);
-            return;
-        }
 
-        database.getTables().add(new Table(tableID, tableSeats));
+        database.getTables().add(new Table(tableID, comboBoxNewTableSeatsNumber.getSelectionModel().getSelectedItem()));
         refreshTableView(tablesTableView, database.getTables());
 
         textfieldNewTableID.clear();
-        textfieldNewTableNoSeats.clear();
     }
 
     @FXML
@@ -89,7 +86,7 @@ public class TablesController extends Controller{
     private void moveToEdit(){
         paneEditTableForm.toFront();
         textfieldEditTableID.setText(String.valueOf(tableSelection().getTableID()));
-        textfieldEditTableNoSeats.setText(String.valueOf(tableSelection().getNumOfSeats()));
+        comboBoxEditTableSeatsNumber.setValue(tableSelection().getNumOfSeats());
     }
 
     private Table tableSelection(){
@@ -99,7 +96,7 @@ public class TablesController extends Controller{
     @FXML
     private void saveTableEdit(ActionEvent actionEvent) {
         Table table = tableSelection();
-        int newId, newSeats;
+        int newId;
         try{
             newId = Integer.parseInt(textfieldEditTableID.getText());
         }
@@ -108,16 +105,8 @@ public class TablesController extends Controller{
             return;
         }
 
-        try{
-            newSeats = Integer.parseInt(textfieldEditTableNoSeats.getText());
-        }
-        catch (Exception e){
-            showHint("Field must be a number.", textfieldEditTableNoSeats);
-            return;
-        }
-
         table.setTableID(newId);
-        table.setNumOfSeats(newSeats);
+        table.setNumOfSeats(comboBoxEditTableSeatsNumber.getSelectionModel().getSelectedItem());
 
         refreshTableView(tablesTableView, database.getTables());
         paneTableView.toFront();
