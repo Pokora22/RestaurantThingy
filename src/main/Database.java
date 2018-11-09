@@ -32,35 +32,42 @@ public class Database {
     }
 
     public void loadDB(){
-        try {
-            loadBookings();
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (!new File("src/db/bookings.xml").exists()) {
             try {
                 saveBookings();
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
         }
-        try {
-            loadMenu();
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (!new File("src/db/menu.xml").exists()) {
             try {
                 saveMenu();
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
         }
-        try {
-            loadTables();
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (!new File("src/db/tables.xml").exists()) {
             try {
                 saveTables();
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
+        }
+
+        try {
+            loadBookings();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            loadMenu();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            loadTables();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

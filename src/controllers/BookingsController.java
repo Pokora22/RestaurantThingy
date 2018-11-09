@@ -88,9 +88,6 @@ public class BookingsController extends Controller{
         int duration = Integer.parseInt(textfieldNewBookingDuration.getText()); //TODO: All the exceptions + check why time and date turn out as epoch
         LocalDate startDate = datePickerNewBookingDateChoice.getValue();
         LocalTime startTime = LocalTime.ofSecondOfDay(comboBoxNewBookingTime.getValue() * 60 * 60);
-        System.out.println(startTime);
-        System.out.println(startDate);
-        System.out.println(comboBoxNewBookingTime.getValue());
 
         database.getBookings().add(new Booking(table, customerAmnt, customerName, startDate, startTime, duration));
 

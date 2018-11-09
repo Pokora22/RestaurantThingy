@@ -71,22 +71,6 @@ public class TablesController extends Controller{
     }
 
     @FXML
-    private void editSaveID(TableColumn.CellEditEvent<Table, Integer> tableIntegerCellEditEvent) {
-        Table table = tablesTableView.getSelectionModel().getSelectedItem();
-        table.setTableID(tableIntegerCellEditEvent.getNewValue());
-
-        refreshTableView(tablesTableView, database.getTables());
-    }
-
-    @FXML
-    private void editSaveSeats(TableColumn.CellEditEvent<Table, Integer> tableIntegerCellEditEvent) {
-        Table table = tablesTableView.getSelectionModel().getSelectedItem();
-        table.setNumOfSeats(tableIntegerCellEditEvent.getNewValue());
-
-        refreshTableView(tablesTableView, database.getTables());
-    }
-
-    @FXML
     private void tableViewContextMenuRequested(ContextMenuEvent contextMenuEvent) {
         ContextMenu contextMenu = new ContextMenu();
         MenuItem menuItemDelete = new MenuItem("Delete entry");

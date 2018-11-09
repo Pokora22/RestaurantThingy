@@ -34,6 +34,7 @@ public class CustomArrayList <T> extends AbstractList<T> implements Iterable<T>{
         int nextFreeIndex = list.length;
         expand();
         list[nextFreeIndex] = new Node<T>(item);
+        list[nextFreeIndex-1].next = list[nextFreeIndex];
         return true;
     }
 
