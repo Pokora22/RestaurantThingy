@@ -211,6 +211,7 @@ public class BookingsController extends Controller{
     }
 
     public void updateTablesAvailable(ActionEvent actionEvent) {
+        /*
         int seatsNeeded = 0;
         LocalDate dayWanted;
         LocalTime startTime, endTime;
@@ -221,13 +222,13 @@ public class BookingsController extends Controller{
                 actionEvent.getSource() == comboBoxSeatsRequestedNewBooking ||
                 actionEvent.getSource() == comboBoxNewBookingTime ||
                 actionEvent.getSource() == datePickerNewBookingDateChoice){
-            seatsNeeded = comboBoxSeatsRequestedNewBooking.getValue();
+
             dayWanted = datePickerNewBookingDateChoice.getValue();
             startTime = LocalTime.ofSecondOfDay(comboBoxNewBookingTime.getValue() * 3600);
             endTime = startTime.plusHours(comboBoxNewBookingDuration.getValue());
             boxToUpdate = comboBoxNewTableChoice;
         }
-        /*
+
         else{
             seatsNeeded = comboBoxSeatsRequestedEditBooking.getValue();
             dayWanted = datePickerEditBookingDateChoice.getValue();
@@ -235,8 +236,11 @@ public class BookingsController extends Controller{
             endTime = startTime.plusHours(comboBoxEditBookingDuration.getValue());
             boxToUpdate = comboBoxEditTableChoice;
         }
-        //On Edit throws null pointers. Rushed job -> not sure why
+        //On Edit throws null pointers. Rushed job -> TODO: figure why
         */
+        int seatsNeeded = comboBoxSeatsRequestedNewBooking.getValue();
+        ComboBox<Table> boxToUpdate = comboBoxNewTableChoice;
+        CustomArrayList<Table> visibleTables = new CustomArrayList<>();
 
         for(Table table: database.getTables()){
             if (table.getNumOfSeats() >= seatsNeeded){ //too late to add more constraints.
