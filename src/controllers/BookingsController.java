@@ -108,7 +108,7 @@ public class BookingsController extends Controller{
         MenuItem menuItemEdit = new MenuItem("Edit entry");
         SeparatorMenuItem menuSeparator = new SeparatorMenuItem();
         MenuItem menuItemOrder = new MenuItem("Edit Order");
-        contextMenu.getItems().addAll(menuItemDelete, menuItemEdit, menuItemOrder);
+        contextMenu.getItems().addAll(menuItemDelete, menuItemEdit, menuSeparator, menuItemOrder);
 
         menuItemOrder.setOnAction(event -> {
             Stage sourceStage = (Stage) ((Node)contextMenuEvent.getSource()).getScene().getWindow();
@@ -123,7 +123,7 @@ public class BookingsController extends Controller{
             }
             OrderController controller = loader.getController();
             controller.setSourceScene(sourceStage.getScene());
-            controller.setOrder(tableSelection().getOrder());
+            controller.setBooking(tableSelection());
             sourceStage.setTitle(tableSelection().toString());
             sourceStage.setScene(new Scene(root));
         });

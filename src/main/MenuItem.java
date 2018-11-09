@@ -24,4 +24,9 @@ public class MenuItem {
     public void setPrice(double price) {
         if (price >= 0) this.price = price;
     }
+
+    @Override
+    public String toString() {
+        return name + " - " + price;
+    }
 }

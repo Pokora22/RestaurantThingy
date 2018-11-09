@@ -6,7 +6,7 @@ import java.util.Iterator;
 public class CustomLinkedList <T> extends AbstractList<T> implements Iterable<T>{
     public Node<T> head;
 
-    CustomLinkedList(){
+    public CustomLinkedList(){
         this.head = null;
     }
 
@@ -62,6 +62,14 @@ public class CustomLinkedList <T> extends AbstractList<T> implements Iterable<T>
                  temp.next.next = new main.Node(item);
              */
         }
+    }
+
+    @Override
+    public boolean contains(Object o){
+        for (T content: this){
+            if (o.equals(content)) return true;
+        }
+        return false;
     }
 
     @Override

@@ -9,14 +9,14 @@ public class CustomArrayList <T> extends AbstractList<T> implements Iterable<T>{
     private static final int DEFAULT_SIZE = 10;
     private Node<T>[] list;
 
-    CustomArrayList(int startSize){
+    public CustomArrayList(int startSize){
         if(startSize<0)
             list = new Node[DEFAULT_SIZE];
         else
             list = new Node[startSize];
     }
 
-    CustomArrayList(){
+    public CustomArrayList(){
         list = new Node[DEFAULT_SIZE];
         //list[0] = new Node();
     }

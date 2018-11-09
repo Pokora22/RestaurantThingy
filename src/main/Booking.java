@@ -22,7 +22,7 @@ public class Booking {
         this.startDate = startDate != null && startDate.isAfter(LocalDate.now().minusDays(1))? startDate : LocalDate.EPOCH;
         this.startTime = startTime != null && startTime.isAfter(LocalTime.now().minusHours(1))? startTime: LocalTime.MIDNIGHT;
         this.duration = duration > 0? duration: 0;
-        order = new CustomLinkedList<>();
+        this.order = new CustomLinkedList<>();
     }
 
     public Table getTable() {

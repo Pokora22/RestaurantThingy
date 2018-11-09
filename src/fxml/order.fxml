@@ -9,11 +9,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="432.0" prefWidth="845.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.OrderController">
-    <center>
-        <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="432.0" prefWidth="541.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.OrderController">
+   <right>
+        <AnchorPane prefHeight="432.0" prefWidth="599.0" BorderPane.alignment="CENTER">
             <children>
-            <Label fx:id="orderForBookingLabel" layoutX="12.0" prefHeight="54.0" prefWidth="302.0" text="Order for:" />
+            <Label fx:id="orderForBookingLabel" layoutX="12.0" prefHeight="45.0" prefWidth="520.0" text="Order for:" />
             <AnchorPane fx:id="anchorPaneEditItem" layoutX="14.0" layoutY="96.0" style="-fx-background-color: rgb(245, 245,245);">
                <children>
                   <Label prefHeight="24.0" prefWidth="107.0" text="Item" />
@@ -34,17 +34,14 @@
                   <Button fx:id="btnOrderCheckout" layoutX="117.0" layoutY="172.0" mnemonicParsing="false" onAction="#checkout" prefHeight="29.0" prefWidth="77.0" text="Checkout" />
                </children>
             </AnchorPane>
-            <Label layoutX="434.0" layoutY="-7.0" prefHeight="54.0" prefWidth="302.0" text="Summary:" />
-                  <TableView fx:id="orderTableView" editable="true" layoutX="332.0" layoutY="47.0" onContextMenuRequested="#tableViewContextMenuRequested" onMouseMoved="#getMouseCoords" prefHeight="385.0" prefWidth="513.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="332.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="47.0">
+                  <TableView fx:id="orderTableView" editable="true" layoutX="230.0" layoutY="47.0" onContextMenuRequested="#tableViewContextMenuRequested" onMouseMoved="#getMouseCoords" prefHeight="380.0" prefWidth="306.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="230.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="47.0">
                       <columns>
                           <TableColumn fx:id="tableColumnOrderItemName" onEditStart="#moveToEdit" prefWidth="175.0" text="Item" />
-                          <TableColumn fx:id="tableColumnOrderItemQuantity" onEditStart="#moveToEdit" prefWidth="76.0" text="Quantity" />
-                          <TableColumn fx:id="tableColumnOrderItemCost" onEditStart="#moveToEdit" prefWidth="139.0" text="Cost per unit" />
-                          <TableColumn fx:id="tableColumnOrderItemTotal" onEditStart="#moveToEdit" prefWidth="122.0" text="Total" />
+                          <TableColumn fx:id="tableColumnOrderItemCost" onEditStart="#moveToEdit" prefWidth="129.0" text="Cost per unit" />
                       </columns>
                   </TableView>
                 <Button layoutX="14.0" layoutY="384.0" mnemonicParsing="false" onAction="#switchToSourceScene" text="Go Back" />
             </children>
         </AnchorPane>
-    </center>
+   </right>
 </BorderPane>

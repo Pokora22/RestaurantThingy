@@ -7,12 +7,17 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.util.converter.IntegerStringConverter;
+import main.Booking;
 import main.CustomLinkedList;
 import main.MenuItem;
+
+import java.awt.print.Book;
 
 import static main.Main.database;
 
 public class OrderController extends Controller{
+    private Booking activeBooking;
     private CustomLinkedList<MenuItem> order;
 
     @FXML
@@ -22,27 +27,24 @@ public class OrderController extends Controller{
     @FXML
     private TableColumn<MenuItem, String> tableColumnOrderItemName;
     @FXML
-    private TableColumn<MenuItem, Double>  tableColumnOrderItemQuantity, tableColumnOrderItemCost, tableColumnOrderItemTotal;
+    private TableColumn<MenuItem, Double>  tableColumnOrderItemCost;
     @FXML
     private AnchorPane anchorPaneEditItem, anchorPaneNewItem;
     @FXML
-    private ComboBox comboBoxItemChoice, comboBoxItemChoiceEdit;
+    private ComboBox<MenuItem> comboBoxItemChoice, comboBoxItemChoiceEdit;
     @FXML
     private TextField textfieldOrderItemQuantity, textfieldOrderItemQuantityEdit;
 
     @FXML
     private void initialize() {
-        refreshTableView(orderTableView, order); //TODO: Fix nullpointer
-
         tableColumnOrderItemName.setCellValueFactory(cellData->
                 new SimpleStringProperty(cellData.getValue().getName()));
         tableColumnOrderItemCost.setCellValueFactory(cellData->
                 new SimpleDoubleProperty(cellData.getValue().getPrice()).asObject());
-        tableColumnOrderItemQuantity.setCellValueFactory(cellData->
-                new SimpleDoubleProperty(getQuant(cellData.getValue())).asObject());
-        tableColumnOrderItemTotal.setCellValueFactory(cellData->
-                new SimpleDoubleProperty(cellData.getValue().getPrice() * getQuant(cellData.getValue())).asObject());
 
+        comboBoxItemChoice.getItems().addAll(database.getMenuItems());
+        comboBoxItemChoice.getSelectionModel().selectFirst();
+        comboBoxItemChoiceEdit.getItems().addAll(database.getMenuItems());
 
     }
 
@@ -56,6 +58,18 @@ public class OrderController extends Controller{
 
     @FXML
     private void addItemToOrder(ActionEvent actionEvent) {
+        int quant;
+        try{
+            quant = Integer.parseInt(textfieldOrderItemQuantity.getText());
+        }
+        catch (Exception e){
+            showHint("Quantity can not be empty.", textfieldOrderItemQuantity);
+            return;
+        }
+        MenuItem toAdd = comboBoxItemChoice.getSelectionModel().getSelectedItem();
+        for(int i = 0; i < quant; i++) order.add(toAdd);
+
+        refreshTableView(orderTableView, order);
     }
 
     @FXML
@@ -68,11 +82,32 @@ public class OrderController extends Controller{
 
     @FXML
     private void moveToEdit(TableColumn.CellEditEvent cellEditEvent) {
-
+        anchorPaneEditItem.toFront();
+        comboBoxItemChoiceEdit.getSelectionModel().select(tableSelection());
+        textfieldOrderItemQuantityEdit.setText(String.valueOf(tableSelection().getPrice()));
     }
 
     @FXML
     private void saveEdit(ActionEvent actionEvent) {
+        MenuItem oldItem = tableSelection();
+        int quant;
+        try{
+            quant = Integer.parseInt(textfieldOrderItemQuantityEdit.toString());
+        }
+        catch (Exception e){
+            showHint("Quantity cannot be empty.", textfieldOrderItemQuantityEdit);
+            return;
+        }
+        if (quant < 0){
+            showHint("Quantity cannot be negative.", textfieldOrderItemQuantityEdit);
+            return;
+        }
+
+        MenuItem newItem = tableSelection();
+        for(MenuItem menuItem: order) if (menuItem.equals(oldItem)) order.remove(menuItem);
+        for (int i = 0; i < quant; i++) order.add(newItem);
+
+        refreshTableView(orderTableView, order);
     }
 
     @FXML
@@ -84,8 +119,11 @@ public class OrderController extends Controller{
         return orderTableView.getSelectionModel().getSelectedItem();
     }
 
-    public void setOrder(CustomLinkedList<MenuItem> order) {
-        this.order = order;
+    public void setBooking(Booking booking) {
+        this.activeBooking = booking;
+        order = booking.getOrder();
+        orderForBookingLabel.setText(booking.toString());
+        refreshTableView(orderTableView, order);
     }
 
     /*
