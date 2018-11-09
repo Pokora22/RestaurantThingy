@@ -62,4 +62,8 @@ public class Controller {
         this.mouseX = mouseEvent.getScreenX();
         this.mouseY = mouseEvent.getScreenY();
     }
+
+    protected Scene getScene() {
+        return sourceScene;
+    }
 }

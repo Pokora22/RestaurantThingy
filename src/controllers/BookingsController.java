@@ -5,12 +5,18 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import main.Booking;
 import main.Table;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -100,7 +106,26 @@ public class BookingsController extends Controller{
         ContextMenu contextMenu = new ContextMenu();
         MenuItem menuItemDelete = new MenuItem("Delete entry");
         MenuItem menuItemEdit = new MenuItem("Edit entry");
-        contextMenu.getItems().addAll(menuItemDelete, menuItemEdit);
+        SeparatorMenuItem menuSeparator = new SeparatorMenuItem();
+        MenuItem menuItemOrder = new MenuItem("Edit Order");
+        contextMenu.getItems().addAll(menuItemDelete, menuItemEdit, menuItemOrder);
+
+        menuItemOrder.setOnAction(event -> {
+            Stage sourceStage = (Stage) ((Node)contextMenuEvent.getSource()).getScene().getWindow();
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/order.fxml"));
+            Parent root;
+            try {
+                root = loader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
+                return;
+            }
+            Controller controller = loader.getController();
+            controller.setSourceScene(sourceStage.getScene());
+            sourceStage.setTitle(tableSelection().toString());
+            sourceStage.setScene(new Scene(root));
+        });
 
         menuItemDelete.setOnAction(event -> {
             if (database.getBookings().remove(tableSelection())) refreshTableView(bookingsTableView, database.getBookings());
