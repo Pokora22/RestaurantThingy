@@ -127,5 +127,11 @@ public class TablesController extends Controller{
     private void cancelTableEdit(ActionEvent actionEvent) {
         paneTableView.toFront();
     }
+
+    @FXML
+    protected void clearTables(ActionEvent actionEvent) {
+        super.clearTables(actionEvent);
+        refreshTableView(tablesTableView, database.getTables());
+    }
 }
 

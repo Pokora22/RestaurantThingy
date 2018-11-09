@@ -74,6 +74,11 @@ public class OrderController extends Controller{
 
     @FXML
     private void checkout(ActionEvent actionEvent) {
+        double total = 0;
+        for(MenuItem item: order) total += item.getPrice();
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Total to be paid: " + total);
+        alert.showAndWait();
     }
 
     @FXML

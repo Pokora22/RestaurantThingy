@@ -187,6 +187,12 @@ public class BookingsController extends Controller{
     }
 
     @FXML
+    protected void clearBookings(ActionEvent actionEvent) {
+        super.clearBookings(actionEvent);
+        refreshTableView(bookingsTableView, database.getBookings());
+    }
+
+    @FXML
     private void moveToEdit() {
         paneEditBookingForm.toFront();
 

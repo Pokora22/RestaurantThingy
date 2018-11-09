@@ -118,4 +118,10 @@ public class MenuController extends Controller{
     private void cancelMenuItemEdit(ActionEvent actionEvent) {
         paneMenuItemView.toFront();
     }
+
+    @FXML
+    protected void clearMenu(ActionEvent actionEvent) {
+        super.clearMenu(actionEvent);
+        refreshTableView(menuItemsTableView, database.getMenuItems());
+    }
 }

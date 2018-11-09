@@ -64,6 +64,10 @@ public class CustomLinkedList <T> extends AbstractList<T> implements Iterable<T>
         }
     }
 
+    public void clear(){
+        head = null;
+    }
+
     @Override
     public boolean contains(Object o){
         for (T content: this){

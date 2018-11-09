@@ -4,15 +4,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Tooltip;
-import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import main.Table;
 
 import java.util.AbstractList;
 
@@ -61,6 +58,28 @@ public class Controller {
     protected void getMouseCoords(MouseEvent mouseEvent) {
         this.mouseX = mouseEvent.getScreenX();
         this.mouseY = mouseEvent.getScreenY();
+    }
+
+    @FXML
+    protected void clearBookings(ActionEvent actionEvent) {
+        database.getBookings().clear();
+    }
+
+    @FXML
+    protected void clearTables(ActionEvent actionEvent) {
+        database.getTables().clear();
+    }
+
+    @FXML
+    protected void clearMenu(ActionEvent actionEvent) {
+        database.getMenuItems().clear();
+    }
+
+    @FXML
+    protected void clearAll(ActionEvent actionEvent) {
+        database.getMenuItems().clear();
+        database.getTables().clear();
+        database.getBookings().clear();
     }
 
     protected Scene getScene() {

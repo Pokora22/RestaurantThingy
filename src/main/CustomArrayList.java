@@ -67,9 +67,7 @@ public class CustomArrayList <T> extends AbstractList<T> implements Iterable<T>{
     }
 
     public void clear(){
-        for(Object o : this){
-            o = null;
-        }
+        list = new Node[DEFAULT_SIZE];
     }
 
     public T getContent(int index){
