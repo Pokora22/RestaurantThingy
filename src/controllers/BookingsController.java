@@ -121,8 +121,9 @@ public class BookingsController extends Controller{
                 e.printStackTrace();
                 return;
             }
-            Controller controller = loader.getController();
+            OrderController controller = loader.getController();
             controller.setSourceScene(sourceStage.getScene());
+            controller.setOrder(tableSelection().getOrder());
             sourceStage.setTitle(tableSelection().toString());
             sourceStage.setScene(new Scene(root));
         });

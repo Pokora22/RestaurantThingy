@@ -1,14 +1,57 @@
 package controllers;
 
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.ContextMenuEvent;
+import javafx.scene.layout.AnchorPane;
+import main.CustomLinkedList;
+import main.MenuItem;
+
+import static main.Main.database;
 
 public class OrderController extends Controller{
+    private CustomLinkedList<MenuItem> order;
+
+    @FXML
+    private Label orderForBookingLabel;
+    @FXML
+    private TableView<MenuItem> orderTableView;
+    @FXML
+    private TableColumn<MenuItem, String> tableColumnOrderItemName;
+    @FXML
+    private TableColumn<MenuItem, Double>  tableColumnOrderItemQuantity, tableColumnOrderItemCost, tableColumnOrderItemTotal;
+    @FXML
+    private AnchorPane anchorPaneEditItem, anchorPaneNewItem;
+    @FXML
+    private ComboBox comboBoxItemChoice, comboBoxItemChoiceEdit;
+    @FXML
+    private TextField textfieldOrderItemQuantity, textfieldOrderItemQuantityEdit;
+
     @FXML
     private void initialize() {
+        refreshTableView(orderTableView, order);
 
+        tableColumnOrderItemName.setCellValueFactory(cellData->
+                new SimpleStringProperty(cellData.getValue().getName()));
+        tableColumnOrderItemCost.setCellValueFactory(cellData->
+                new SimpleDoubleProperty(cellData.getValue().getPrice()).asObject());
+        tableColumnOrderItemQuantity.setCellValueFactory(cellData->
+                new SimpleDoubleProperty(getQuant(cellData.getValue())).asObject());
+        tableColumnOrderItemTotal.setCellValueFactory(cellData->
+                new SimpleDoubleProperty(cellData.getValue().getPrice() * getQuant(cellData.getValue())).asObject());
+
+
+    }
+
+    private double getQuant(MenuItem item) {
+        double quant = 0;
+        for(MenuItem t: order){
+            if (t.equals(item)) quant++;
+        }
+        return quant;
     }
 
     @FXML
@@ -25,6 +68,24 @@ public class OrderController extends Controller{
 
     @FXML
     private void moveToEdit(TableColumn.CellEditEvent cellEditEvent) {
+
+    }
+
+    @FXML
+    private void saveEdit(ActionEvent actionEvent) {
+    }
+
+    @FXML
+    private void cancelEdit(ActionEvent actionEvent) {
+        anchorPaneNewItem.toFront();
+    }
+
+    private MenuItem tableSelection(){
+        return orderTableView.getSelectionModel().getSelectedItem();
+    }
+
+    public void setOrder(CustomLinkedList<MenuItem> order) {
+        this.order = order;
     }
 
     /*
@@ -42,10 +103,6 @@ public class OrderController extends Controller{
         menuItemEdit.setOnAction(event -> moveToEdit());
 
         contextMenu.show(bookingsTableView, mouseX, mouseY);
-    }
-
-    private Booking tableSelection(){
-        return bookingsTableView.getSelectionModel().getSelectedItem();
     }
 
     private void setFormDefault(){
