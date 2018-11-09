@@ -35,6 +35,7 @@ public class Database {
         if (!new File("src/db/bookings.xml").exists()) {
             try {
                 saveBookings();
+                loadBookings();
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
@@ -42,6 +43,7 @@ public class Database {
         if (!new File("src/db/menu.xml").exists()) {
             try {
                 saveMenu();
+                loadMenu();
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
@@ -49,25 +51,10 @@ public class Database {
         if (!new File("src/db/tables.xml").exists()) {
             try {
                 saveTables();
+                loadTables();
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
-        }
-
-        try {
-            loadBookings();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            loadMenu();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            loadTables();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
