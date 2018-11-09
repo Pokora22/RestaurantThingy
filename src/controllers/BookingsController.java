@@ -29,14 +29,14 @@ public class BookingsController extends Controller{
     @FXML
     private ComboBox<Table> comboBoxNewTableChoice, comboBoxEditTableChoice;
     @FXML
-    private ComboBox<Integer> comboBoxNewBookingTime, comboBoxEditBookingTime, comboBoxSeatsRequestedEditBooking, comboBoxSeatsRequestedNewBooking;
+    private ComboBox<Integer> comboBoxNewBookingTime, comboBoxEditBookingTime, comboBoxSeatsRequestedEditBooking, comboBoxSeatsRequestedNewBooking,
+            comboBoxNewBookingDuration, comboBoxEditBookingDuration;
     @FXML
     private Button btnNewBookingPane, btnViewBookingsPane;
     @FXML
     private AnchorPane paneNewBookingForm, paneBookingView, paneEditBookingForm;
     @FXML
-    private TextField textfieldNewBookingCustomerName, textfieldEditBookingDuration,
-            textfieldNewBookingDuration, textfieldEditBookingCustomerName;
+    private TextField textfieldNewBookingCustomerName, textfieldEditBookingCustomerName;
     @FXML
     private TableView<Booking> bookingsTableView;
     @FXML
@@ -52,6 +52,9 @@ public class BookingsController extends Controller{
         comboBoxEditBookingTime.getItems().addAll(comboBoxNewBookingTime.getItems());
         comboBoxSeatsRequestedNewBooking.getItems().addAll(seatsAvailable());
         comboBoxSeatsRequestedEditBooking.getItems().addAll(comboBoxSeatsRequestedNewBooking.getItems());
+        comboBoxNewBookingDuration.getItems().addAll(1,2,3,4,5,6,7,8,9,10);
+        comboBoxNewBookingDuration.getSelectionModel().selectFirst();
+        comboBoxEditBookingDuration.getItems().addAll(comboBoxNewBookingDuration.getItems());
         comboBoxNewTableChoice.getItems().addAll(database.getTables());
         comboBoxEditTableChoice.getItems().addAll(database.getTables());
 
@@ -101,10 +104,10 @@ public class BookingsController extends Controller{
 
     @FXML
     private void addNewBooking(ActionEvent actionEvent) {
-        Table table = comboBoxNewTableChoice.getSelectionModel().getSelectedItem();
+        Table table = comboBoxNewTableChoice.getValue();
         String customerName = textfieldNewBookingCustomerName.getText();
-        int customerAmnt = comboBoxSeatsRequestedNewBooking.getSelectionModel().getSelectedItem();
-        int duration = Integer.parseInt(textfieldNewBookingDuration.getText());
+        int customerAmnt = comboBoxSeatsRequestedNewBooking.getValue();
+        int duration = comboBoxNewBookingDuration.getValue();
         LocalDate startDate = datePickerNewBookingDateChoice.getValue();
         LocalTime startTime = LocalTime.ofSecondOfDay(comboBoxNewBookingTime.getValue() * 60 * 60);
 
@@ -157,22 +160,16 @@ public class BookingsController extends Controller{
         comboBoxNewBookingTime.getSelectionModel().selectFirst();
         comboBoxNewTableChoice.getSelectionModel().selectFirst();
         comboBoxSeatsRequestedNewBooking.getSelectionModel().selectFirst();
+        comboBoxNewBookingDuration.getSelectionModel().selectFirst();
         datePickerNewBookingDateChoice.setValue(LocalDate.now());
 
         textfieldNewBookingCustomerName.clear();
-        textfieldNewBookingDuration.clear();
     }
 
     @FXML
     private void saveEditBooking(ActionEvent actionEvent) {
         String name;
-        try {
-            tableSelection().setDuration(Integer.parseInt(textfieldEditBookingDuration.getText()));
-        }
-        catch (Exception e){
-            showHint("Duration cannot be empty.", textfieldEditBookingDuration);
-            return;
-        }
+        tableSelection().setDuration(comboBoxNewBookingDuration.getValue());
 
         name = textfieldEditBookingCustomerName.getText();
         if(name.isEmpty()){
@@ -180,7 +177,7 @@ public class BookingsController extends Controller{
             return;
         }
         tableSelection().setCustomerName(name);
-        tableSelection().setCustomerAmnt(comboBoxSeatsRequestedEditBooking.getSelectionModel().getSelectedItem());
+        tableSelection().setCustomerAmnt(comboBoxSeatsRequestedEditBooking.getValue());
         tableSelection().setStartDate(datePickerEditBookingDateChoice.getValue());
         tableSelection().setStartTime(LocalTime.ofSecondOfDay(comboBoxEditBookingTime.getValue() * 60 * 60));
         tableSelection().setTable(comboBoxEditTableChoice.getValue());
@@ -208,7 +205,7 @@ public class BookingsController extends Controller{
         comboBoxEditBookingTime.setValue(tableSelection().getStartTime().getHour());
         comboBoxEditTableChoice.setValue(tableSelection().getTable());
         textfieldEditBookingCustomerName.setText(tableSelection().getCustomerName());
-        textfieldEditBookingDuration.setText(String.valueOf(tableSelection().getDuration()));
+        comboBoxEditBookingDuration.setValue(tableSelection().getDuration());
         comboBoxSeatsRequestedEditBooking.setValue(tableSelection().getCustomerAmnt());
     }
 

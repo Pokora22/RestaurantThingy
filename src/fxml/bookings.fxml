@@ -39,23 +39,6 @@
     <center>
         <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
             <children>
-                <AnchorPane fx:id="paneNewBookingForm" prefHeight="400.0" prefWidth="415.0" style="-fx-background-color: rgb(245,245,245);" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                    <children>
-                        <TextField fx:id="textfieldNewBookingCustomerName" layoutX="120.0" layoutY="28.0" onAction="#addNewBooking" prefHeight="25.0" prefWidth="176.0" />
-                  <ComboBox fx:id="comboBoxSeatsRequestedNewBooking" layoutX="120.0" layoutY="61.0" onAction="#updateTablesAvailable" prefHeight="25.0" prefWidth="175.0" />
-                  <ComboBox fx:id="comboBoxNewTableChoice" layoutX="120.0" layoutY="92.0" prefHeight="25.0" prefWidth="174.0" />
-                  <DatePicker fx:id="datePickerNewBookingDateChoice" layoutX="120.0" layoutY="124.0" onAction="#updateTablesAvailable" />
-                  <ComboBox fx:id="comboBoxNewBookingTime" layoutX="120.0" layoutY="155.0" onAction="#updateTablesAvailable" prefHeight="25.0" prefWidth="174.0" />
-                  <TextField fx:id="textfieldNewBookingDuration" layoutX="120.0" layoutY="188.0" onAction="#addNewBooking" prefHeight="25.0" prefWidth="173.0" />
-                        <Label layoutX="14.0" layoutY="28.0" prefHeight="24.0" prefWidth="107.0" text="Customer Name" />
-                  <Label layoutX="14.0" layoutY="61.0" prefHeight="24.0" prefWidth="107.0" text="Seats requested" />
-                  <Label layoutX="14.0" layoutY="92.0" prefHeight="24.0" prefWidth="107.0" text="Table" />
-                  <Label layoutX="14.0" layoutY="124.0" prefHeight="24.0" prefWidth="107.0" text="Date" />
-                  <Label layoutX="14.0" layoutY="155.0" prefHeight="24.0" prefWidth="107.0" text="Time" />
-                  <Label layoutX="14.0" layoutY="188.0" prefHeight="24.0" prefWidth="107.0" text="Duration" />
-                        <Button fx:id="btnNewBookingAdd" layoutX="29.0" layoutY="268.0" mnemonicParsing="false" onAction="#addNewBooking" prefHeight="29.0" prefWidth="77.0" text="Add" />
-                    </children>
-                </AnchorPane>
             <AnchorPane fx:id="paneEditBookingForm" layoutX="10.0" layoutY="10.0" prefHeight="432.0" prefWidth="660.0" style="-fx-background-color: rgb(245,245,245);" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <TextField fx:id="textfieldEditBookingCustomerName" layoutX="120.0" layoutY="28.0" onAction="#saveEditBooking" prefHeight="25.0" prefWidth="176.0" />
@@ -63,7 +46,6 @@
                   <ComboBox fx:id="comboBoxEditTableChoice" layoutX="121.0" layoutY="92.0" onAction="#updateTablesAvailable" prefHeight="25.0" prefWidth="174.0" />
                   <DatePicker fx:id="datePickerEditBookingDateChoice" layoutX="120.0" layoutY="124.0" onAction="#updateTablesAvailable" />
                   <ComboBox fx:id="comboBoxEditBookingTime" layoutX="120.0" layoutY="155.0" onAction="#updateTablesAvailable" prefHeight="25.0" prefWidth="174.0" />
-                  <TextField fx:id="textfieldEditBookingDuration" layoutX="120.0" layoutY="188.0" onAction="#saveEditBooking" prefHeight="25.0" prefWidth="173.0" />
                   <Label layoutX="14.0" layoutY="28.0" prefHeight="24.0" prefWidth="107.0" text="Customer Name" />
                   <Label layoutX="14.0" layoutY="61.0" prefHeight="24.0" prefWidth="107.0" text="Seats requested" />
                   <Label layoutX="14.0" layoutY="92.0" prefHeight="24.0" prefWidth="107.0" text="Table" />
@@ -72,8 +54,26 @@
                   <Label layoutX="14.0" layoutY="188.0" prefHeight="24.0" prefWidth="107.0" text="Duration" />
                   <Button fx:id="btnEditBookingSave" layoutX="29.0" layoutY="268.0" mnemonicParsing="false" onAction="#saveEditBooking" prefHeight="29.0" prefWidth="77.0" text="Save" />
                   <Button fx:id="btnEditBookingCancel" layoutX="150.0" layoutY="268.0" mnemonicParsing="false" onAction="#editBookingCancel" prefHeight="29.0" prefWidth="77.0" text="Cancel" />
+                  <ComboBox fx:id="comboBoxEditBookingDuration" layoutX="120.0" layoutY="188.0" onAction="#updateTablesAvailable" prefHeight="25.0" prefWidth="174.0" />
                </children>
             </AnchorPane>
+                <AnchorPane fx:id="paneNewBookingForm" prefHeight="400.0" prefWidth="415.0" style="-fx-background-color: rgb(245,245,245);" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <children>
+                        <TextField fx:id="textfieldNewBookingCustomerName" layoutX="120.0" layoutY="28.0" onAction="#addNewBooking" prefHeight="25.0" prefWidth="176.0" />
+                  <ComboBox fx:id="comboBoxSeatsRequestedNewBooking" layoutX="120.0" layoutY="61.0" onAction="#updateTablesAvailable" prefHeight="25.0" prefWidth="175.0" />
+                  <ComboBox fx:id="comboBoxNewTableChoice" layoutX="120.0" layoutY="92.0" prefHeight="25.0" prefWidth="174.0" />
+                  <DatePicker fx:id="datePickerNewBookingDateChoice" layoutX="120.0" layoutY="124.0" onAction="#updateTablesAvailable" />
+                  <ComboBox fx:id="comboBoxNewBookingTime" layoutX="120.0" layoutY="155.0" onAction="#updateTablesAvailable" prefHeight="25.0" prefWidth="174.0" />
+                        <Label layoutX="14.0" layoutY="28.0" prefHeight="24.0" prefWidth="107.0" text="Customer Name" />
+                  <Label layoutX="14.0" layoutY="61.0" prefHeight="24.0" prefWidth="107.0" text="Seats requested" />
+                  <Label layoutX="14.0" layoutY="92.0" prefHeight="24.0" prefWidth="107.0" text="Table" />
+                  <Label layoutX="14.0" layoutY="124.0" prefHeight="24.0" prefWidth="107.0" text="Date" />
+                  <Label layoutX="14.0" layoutY="155.0" prefHeight="24.0" prefWidth="107.0" text="Time" />
+                  <Label layoutX="14.0" layoutY="188.0" prefHeight="24.0" prefWidth="107.0" text="Duration" />
+                        <Button fx:id="btnNewBookingAdd" layoutX="29.0" layoutY="268.0" mnemonicParsing="false" onAction="#addNewBooking" prefHeight="29.0" prefWidth="77.0" text="Add" />
+                  <ComboBox fx:id="comboBoxNewBookingDuration" layoutX="120.0" layoutY="188.0" onAction="#updateTablesAvailable" prefHeight="25.0" prefWidth="174.0" />
+                    </children>
+                </AnchorPane>
                 <AnchorPane fx:id="paneBookingView" prefHeight="400.0" prefWidth="415.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <children>
                         <TableView fx:id="bookingsTableView" editable="true" onContextMenuRequested="#tableViewContextMenuRequested" onMouseMoved="#getMouseCoords" prefHeight="400.0" prefWidth="415.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
