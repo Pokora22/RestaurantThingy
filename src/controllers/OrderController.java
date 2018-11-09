@@ -77,11 +77,7 @@ public class OrderController extends Controller{
     }
 
     @FXML
-    private void tableViewContextMenuRequested(ContextMenuEvent contextMenuEvent) {
-    }
-
-    @FXML
-    private void moveToEdit(TableColumn.CellEditEvent cellEditEvent) {
+    private void moveToEdit() {
         anchorPaneEditItem.toFront();
         comboBoxItemChoiceEdit.getSelectionModel().select(tableSelection());
         textfieldOrderItemQuantityEdit.setText(String.valueOf(tableSelection().getPrice()));
@@ -92,7 +88,7 @@ public class OrderController extends Controller{
         MenuItem oldItem = tableSelection();
         int quant;
         try{
-            quant = Integer.parseInt(textfieldOrderItemQuantityEdit.toString());
+            quant = Integer.parseInt(textfieldOrderItemQuantityEdit.getText());
         }
         catch (Exception e){
             showHint("Quantity cannot be empty.", textfieldOrderItemQuantityEdit);
@@ -108,11 +104,27 @@ public class OrderController extends Controller{
         for (int i = 0; i < quant; i++) order.add(newItem);
 
         refreshTableView(orderTableView, order);
+        anchorPaneNewItem.toFront();
     }
 
     @FXML
     private void cancelEdit(ActionEvent actionEvent) {
         anchorPaneNewItem.toFront();
+    }
+
+    @FXML
+    private void tableViewContextMenuRequested(ContextMenuEvent contextMenuEvent) {
+        ContextMenu contextMenu = new ContextMenu();
+        javafx.scene.control.MenuItem menuItemDelete = new javafx.scene.control.MenuItem("Delete entry");
+        javafx.scene.control.MenuItem menuItemEdit = new javafx.scene.control.MenuItem("Edit entry");
+        contextMenu.getItems().addAll(menuItemDelete, menuItemEdit);
+
+        menuItemDelete.setOnAction(event -> {
+            if (order.remove(tableSelection())) refreshTableView(orderTableView, order);
+        });
+        menuItemEdit.setOnAction(event -> moveToEdit());
+
+        contextMenu.show(orderTableView, mouseX, mouseY);
     }
 
     private MenuItem tableSelection(){
@@ -129,19 +141,7 @@ public class OrderController extends Controller{
     /*
 
     @FXML
-    private void tableViewContextMenuRequested(ContextMenuEvent contextMenuEvent) {
-        ContextMenu contextMenu = new ContextMenu();
-        MenuItem menuItemDelete = new MenuItem("Delete entry");
-        MenuItem menuItemEdit = new MenuItem("Edit entry");
-        contextMenu.getItems().addAll(menuItemDelete, menuItemEdit);
 
-        menuItemDelete.setOnAction(event -> {
-            if (database.getBookings().remove(tableSelection())) refreshTableView(bookingsTableView, database.getBookings());
-        });
-        menuItemEdit.setOnAction(event -> moveToEdit());
-
-        contextMenu.show(bookingsTableView, mouseX, mouseY);
-    }
 
     private void setFormDefault(){
         comboBoxNewBookingTime.getSelectionModel().selectFirst();
