@@ -13,7 +13,7 @@ import static main.Main.database;
 
 public class MenuController extends Controller{
     @FXML
-    private Button btnNewMenuItemPane, btnViewMenuItemsPane, btnCancelEdit, btnSaveEdit;
+    private Button btnNewMenuItemPane, btnViewMenuItemsPane;
     @FXML
     private AnchorPane paneNewMenuItemForm, paneMenuItemView, paneEditMenuItem;
     @FXML

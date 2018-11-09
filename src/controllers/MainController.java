@@ -7,16 +7,13 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Slider;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
 public class MainController extends Controller{
     @FXML
-    private Button btnBookings, btnTables, btnMenu;
+    private Button btnBookings, btnMenu;
 
     public void changeScene(ActionEvent actionEvent) throws IOException {
         Stage sourceStage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();

@@ -7,12 +7,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.util.converter.IntegerStringConverter;
 import main.Booking;
 import main.CustomLinkedList;
 import main.MenuItem;
-
-import java.awt.print.Book;
 
 import static main.Main.database;
 

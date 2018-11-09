@@ -4,11 +4,8 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.util.converter.IntegerStringConverter;
-import main.Main;
 import main.Table;
 
 import static main.Main.database;

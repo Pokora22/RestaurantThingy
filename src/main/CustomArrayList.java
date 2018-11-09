@@ -1,9 +1,7 @@
 package main;
 
 import java.util.AbstractList;
-import java.util.Arrays;
 import java.util.Iterator;
-import java.util.List;
 
 public class CustomArrayList <T> extends AbstractList<T> implements Iterable<T>{
     private static final int DEFAULT_SIZE = 10;

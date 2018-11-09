@@ -14,6 +14,7 @@ import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import main.Booking;
+import main.CustomArrayList;
 import main.CustomLinkedList;
 import main.Table;
 
@@ -210,5 +211,40 @@ public class BookingsController extends Controller{
     }
 
     public void updateTablesAvailable(ActionEvent actionEvent) {
+        int seatsNeeded = 0;
+        LocalDate dayWanted;
+        LocalTime startTime, endTime;
+        CustomArrayList<Table> visibleTables = new CustomArrayList<>();
+        ComboBox<Table> boxToUpdate = comboBoxNewTableChoice;
+
+        if(actionEvent.getSource() == comboBoxNewBookingDuration ||
+                actionEvent.getSource() == comboBoxSeatsRequestedNewBooking ||
+                actionEvent.getSource() == comboBoxNewBookingTime ||
+                actionEvent.getSource() == datePickerNewBookingDateChoice){
+            seatsNeeded = comboBoxSeatsRequestedNewBooking.getValue();
+            dayWanted = datePickerNewBookingDateChoice.getValue();
+            startTime = LocalTime.ofSecondOfDay(comboBoxNewBookingTime.getValue() * 3600);
+            endTime = startTime.plusHours(comboBoxNewBookingDuration.getValue());
+            boxToUpdate = comboBoxNewTableChoice;
+        }
+        /*
+        else{
+            seatsNeeded = comboBoxSeatsRequestedEditBooking.getValue();
+            dayWanted = datePickerEditBookingDateChoice.getValue();
+            startTime = LocalTime.ofSecondOfDay(comboBoxEditBookingTime.getValue() * 3600);
+            endTime = startTime.plusHours(comboBoxEditBookingDuration.getValue());
+            boxToUpdate = comboBoxEditTableChoice;
+        }
+        //On Edit throws null pointers. Rushed job -> not sure why
+        */
+
+        for(Table table: database.getTables()){
+            if (table.getNumOfSeats() >= seatsNeeded){ //too late to add more constraints.
+                visibleTables.add(table);
+            }
+        }
+        boxToUpdate.getItems().clear();
+        boxToUpdate.getItems().addAll(visibleTables);
+        boxToUpdate.getSelectionModel().selectFirst();
     }
 }

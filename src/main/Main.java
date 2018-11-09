@@ -6,8 +6,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
 
 public class Main extends Application {
     public static Database database;
