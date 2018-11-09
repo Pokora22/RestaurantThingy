@@ -1,1 +1,1 @@
-<?xml version="1.0" ?><object-stream><main.CustomLinkedList></main.CustomLinkedList></object-stream>
+<?xml version="1.0" ?><object-stream><main.CustomLinkedList><head><content class="main.Booking"><table><tableID>1</tableID><numOfSeats>6</numOfSeats></table><order></order><customerAmnt>6</customerAmnt><customerName>N1</customerName><startDate>2018-11-09</startDate><startTime>00:00:00</startTime><duration>1</duration></content></head></main.CustomLinkedList></object-stream>

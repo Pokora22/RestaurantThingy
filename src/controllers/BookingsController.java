@@ -14,6 +14,7 @@ import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import main.Booking;
+import main.CustomLinkedList;
 import main.Table;
 
 import java.io.IOException;
@@ -28,14 +29,14 @@ public class BookingsController extends Controller{
     @FXML
     private ComboBox<Table> comboBoxNewTableChoice, comboBoxEditTableChoice;
     @FXML
-    private ComboBox<Integer> comboBoxNewBookingTime, comboBoxEditBookingTime;
+    private ComboBox<Integer> comboBoxNewBookingTime, comboBoxEditBookingTime, comboBoxSeatsRequestedEditBooking, comboBoxSeatsRequestedNewBooking;
     @FXML
-    private Button btnNewBookingPane, btnViewBookingsPane, btnNewBookingAdd;
+    private Button btnNewBookingPane, btnViewBookingsPane;
     @FXML
     private AnchorPane paneNewBookingForm, paneBookingView, paneEditBookingForm;
     @FXML
-    private TextField textfieldNewBookingCustomerName, textfieldNewBookingSeatsRequested, textfieldEditBookingDuration,
-            textfieldNewBookingDuration, textfieldEditBookingCustomerName, textfieldEditBookingSeatsRequested;
+    private TextField textfieldNewBookingCustomerName, textfieldEditBookingDuration,
+            textfieldNewBookingDuration, textfieldEditBookingCustomerName;
     @FXML
     private TableView<Booking> bookingsTableView;
     @FXML
@@ -49,8 +50,12 @@ public class BookingsController extends Controller{
     private void initialize(){
         comboBoxNewBookingTime.getItems().addAll(12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22);
         comboBoxEditBookingTime.getItems().addAll(comboBoxNewBookingTime.getItems());
+        comboBoxSeatsRequestedNewBooking.getItems().addAll(seatsAvailable());
+        comboBoxSeatsRequestedEditBooking.getItems().addAll(comboBoxSeatsRequestedNewBooking.getItems());
         comboBoxNewTableChoice.getItems().addAll(database.getTables());
         comboBoxEditTableChoice.getItems().addAll(database.getTables());
+
+
         setFormDefault();
 
         refreshTableView(bookingsTableView, database.getBookings());
@@ -78,6 +83,14 @@ public class BookingsController extends Controller{
                 new SimpleStringProperty(cellData.getValue().getEndTime().toString()));
     }
 
+    private CustomLinkedList<Integer> seatsAvailable() {
+        CustomLinkedList<Integer> seats = new CustomLinkedList<>();
+        int max = 0;
+        for(Table t: database.getTables()) if (t.getNumOfSeats() > max) max = t.getNumOfSeats();
+        for(int i = 0; i <= max; i++) seats.add(i);
+        return seats;
+    }
+
     @FXML
     private void handleButtonAction(ActionEvent actionEvent) {
         if(actionEvent.getSource() == btnNewBookingPane) paneNewBookingForm.toFront();
@@ -90,8 +103,8 @@ public class BookingsController extends Controller{
     private void addNewBooking(ActionEvent actionEvent) {
         Table table = comboBoxNewTableChoice.getSelectionModel().getSelectedItem();
         String customerName = textfieldNewBookingCustomerName.getText();
-        int customerAmnt = Integer.parseInt(textfieldNewBookingSeatsRequested.getText());
-        int duration = Integer.parseInt(textfieldNewBookingDuration.getText()); //TODO: All the exceptions + check why time and date turn out as epoch
+        int customerAmnt = comboBoxSeatsRequestedNewBooking.getSelectionModel().getSelectedItem();
+        int duration = Integer.parseInt(textfieldNewBookingDuration.getText());
         LocalDate startDate = datePickerNewBookingDateChoice.getValue();
         LocalTime startTime = LocalTime.ofSecondOfDay(comboBoxNewBookingTime.getValue() * 60 * 60);
 
@@ -143,11 +156,11 @@ public class BookingsController extends Controller{
     private void setFormDefault(){
         comboBoxNewBookingTime.getSelectionModel().selectFirst();
         comboBoxNewTableChoice.getSelectionModel().selectFirst();
+        comboBoxSeatsRequestedNewBooking.getSelectionModel().selectFirst();
         datePickerNewBookingDateChoice.setValue(LocalDate.now());
 
         textfieldNewBookingCustomerName.clear();
         textfieldNewBookingDuration.clear();
-        textfieldNewBookingSeatsRequested.clear();
     }
 
     @FXML
@@ -160,19 +173,14 @@ public class BookingsController extends Controller{
             showHint("Duration cannot be empty.", textfieldEditBookingDuration);
             return;
         }
-        try{
-            tableSelection().setCustomerAmnt(Integer.parseInt(textfieldEditBookingSeatsRequested.getText()));
-        }
-        catch (Exception e){
-            showHint("Number of customers cannot be empty.", textfieldEditBookingSeatsRequested);
-            return;
-        }
+
         name = textfieldEditBookingCustomerName.getText();
         if(name.isEmpty()){
             showHint("Name should not be empty.", textfieldEditBookingCustomerName);
             return;
         }
         tableSelection().setCustomerName(name);
+        tableSelection().setCustomerAmnt(comboBoxSeatsRequestedEditBooking.getSelectionModel().getSelectedItem());
         tableSelection().setStartDate(datePickerEditBookingDateChoice.getValue());
         tableSelection().setStartTime(LocalTime.ofSecondOfDay(comboBoxEditBookingTime.getValue() * 60 * 60));
         tableSelection().setTable(comboBoxEditTableChoice.getValue());
@@ -201,6 +209,9 @@ public class BookingsController extends Controller{
         comboBoxEditTableChoice.setValue(tableSelection().getTable());
         textfieldEditBookingCustomerName.setText(tableSelection().getCustomerName());
         textfieldEditBookingDuration.setText(String.valueOf(tableSelection().getDuration()));
-        textfieldEditBookingSeatsRequested.setText(String.valueOf(tableSelection().getCustomerAmnt()));
+        comboBoxSeatsRequestedEditBooking.setValue(tableSelection().getCustomerAmnt());
+    }
+
+    public void updateTablesAvailable(ActionEvent actionEvent) {
     }
 }
